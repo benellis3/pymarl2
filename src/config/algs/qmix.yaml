@@ -6,8 +6,8 @@ epsilon_start: 1.0
 epsilon_finish: 0.05
 epsilon_anneal_time: 100000 # 500000 for 6h_vs_8z
 
-runner: "parallel"
-batch_size_run: 4 # batch_size_run=4, buffer_size = 2500, batch_size=64  for 3s5z_vs_3s6z
+runner: "episode"
+batch_size_run: 1 # batch_size_run=4, buffer_size = 2500, batch_size=64  for 3s5z_vs_3s6z
 buffer_size: 5000 
 batch_size: 128
 optimizer: 'adam'

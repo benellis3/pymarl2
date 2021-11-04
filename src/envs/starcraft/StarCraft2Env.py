@@ -72,6 +72,8 @@ class StarCraft2Env(MultiAgentEnv):
         seed=None,
         continuing_episode=False,
         stochastic_attack=False,
+        attack_probability_min=0.25,
+        attack_probability_max=1.0,
         random_start=False,
         obs_all_health=True,
         obs_own_health=True,
@@ -210,6 +212,7 @@ class StarCraft2Env(MultiAgentEnv):
         self._move_amount = move_amount
         self._step_mul = step_mul
         self.difficulty = difficulty
+        self.random_start = random_start
         self.stochastic_attack = stochastic_attack
         self.random_start = random_start
 
@@ -278,8 +281,8 @@ class StarCraft2Env(MultiAgentEnv):
         self.death_tracker_ally = np.zeros(self.n_agents)
         self.death_tracker_enemy = np.zeros(self.n_enemies)
         # TODO make adjustable
-        self.attack_probability_min = 0.25
-        self.attack_probability_max = 0.75
+        self.attack_probability_min = attack_probability_min
+        self.attack_probability_max = attack_probability_max
         self.rng = np.random.default_rng()
         self.attack_probabilities = self._generate_attack_probs()
         self.previous_ally_units = None
@@ -1411,17 +1414,18 @@ class StarCraft2Env(MultiAgentEnv):
         """Not implemented."""
         pass
 
+    def _kill_units(self, unit_tags):
+        debug_command = [d_pb.DebugCommand(kill_unit=d_pb.DebugKillUnit(tag=unit_tags))]
+        self._controller.debug(debug_command)
+
     def _kill_all_units(self):
         """Kill all units on the map."""
         units_alive = [unit.tag for unit in self.agents.values() if unit.health > 0] + [
             unit.tag for unit in self.enemies.values() if unit.health > 0
         ]
-        debug_command = [
-            d_pb.DebugCommand(kill_unit=d_pb.DebugKillUnit(tag=units_alive))
-        ]
-        self._controller.debug(debug_command)
+        self._kill_units(units_alive)
 
-    def init_units(self):
+    def init_units(self, do_random_start=True):
         """Initialise the units."""
         while True:
             # Sometimes not all units have yet been created by SC2
@@ -1463,6 +1467,8 @@ class StarCraft2Env(MultiAgentEnv):
             all_enemies_created = len(self.enemies) == self.n_enemies
 
             if all_agents_created and all_enemies_created:  # all good
+                if self.random_start and do_random_start:
+                    self._init_ally_units_randomly()
                 return
 
             try:
@@ -1471,6 +1477,45 @@ class StarCraft2Env(MultiAgentEnv):
             except (protocol.ProtocolError, protocol.ConnectionError):
                 self.full_restart()
                 self.reset()
+
+    def _random_pos(self):
+        return sc_common.Point2D(
+            x=self.rng.uniform(low=0, high=self.map_x),
+            y=self.rng.uniform(low=0, high=self.map_y),
+        )
+
+    def _init_ally_units_randomly(self):
+        """
+        In order to get random start positions for the agents, we iterate through the list of
+        agents, and create new ones of the same type before killing all the original units.
+        This is because starcraft does not provide a clean way of either controlling both
+        AIs, or moving a unit through its protobuf API.
+        """
+        # get all the ally unit tags
+
+        old_units = [ally.tag for ally in self.agents.values() if ally.health > 0]
+        for ally in self.agents.values():
+            # create a unit of the same type
+            self._controller.debug(
+                [
+                    d_pb.DebugCommand(
+                        create_unit=d_pb.DebugCreateUnit(
+                            unit_type=ally.unit_type,
+                            owner=ally.owner,
+                            pos=self._random_pos(),
+                            quantity=1,
+                        )
+                    )
+                ]
+            )
+        self._kill_units(old_units)
+        try:
+            self._controller.step(4)
+            self._obs = self._controller.observe()
+        except (protocol.ProtocolError, protocol.ConnectionError):
+            self.full_restart()
+            self.reset()
+        self.init_units(do_random_start=False)
 
     def update_units(self):
         """Update units after an environment step.

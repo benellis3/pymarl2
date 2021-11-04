@@ -6,6 +6,11 @@ env_args:
   game_version: null
   map_name: "3m"
   move_amount: 2
+  debug: True
+  random_start: True
+  stochastic_attack: True
+  attack_probability_min: 0.25
+  attack_probability_max: 1.0
   obs_all_health: True
   obs_instead_of_state: False
   obs_last_action: False
