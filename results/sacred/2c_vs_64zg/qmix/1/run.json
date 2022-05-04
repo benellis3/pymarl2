@@ -1,0 +1,108 @@
+{
+  "artifacts": [],
+  "command": "my_main",
+  "experiment": {
+    "base_dir": "/source/src",
+    "dependencies": [
+      "munch==2.5.0",
+      "numpy==1.16.3",
+      "sacred==0.8.2",
+      "torch==1.1.0",
+      "wandb==0.12.14"
+    ],
+    "mainfile": "main.py",
+    "name": "pymarl",
+    "repositories": [
+      {
+        "commit": "5bcbf54811ec3f2562ffd47d99d201bfc8217c40",
+        "dirty": true,
+        "url": "git@github.com:benellis3/pymarl2.git"
+      },
+      {
+        "commit": "5bcbf54811ec3f2562ffd47d99d201bfc8217c40",
+        "dirty": true,
+        "url": "git@github.com:benellis3/pymarl2.git"
+      }
+    ],
+    "sources": [
+      [
+        "main.py",
+        "_sources/main_78da08088489c3572a5a51e4e4f2df4e.py"
+      ],
+      [
+        "utils/logging.py",
+        "_sources/logging_bbd5e57a493f521cc49efce26ee07e51.py"
+      ]
+    ]
+  },
+  "fail_trace": [
+    "Traceback (most recent call last):\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/sacred/config/captured_function.py\", line 42, in captured_function\n    result = wrapped(*args, **kwargs)\n",
+    "  File \"src/main.py\", line 35, in my_main\n    run_REGISTRY[_config['run']](_run, config, _log)\n",
+    "  File \"/source/src/run/run.py\", line 55, in run\n    logger.setup_wandb(args)\n",
+    "  File \"/source/src/utils/logging.py\", line 30, in setup_wandb\n    wandb.init(project=config.project, entity=config.entity, group=config.group, name=config.tag, config=config.__dict__)\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_init.py\", line 993, in init\n    wi.setup(kwargs)\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_init.py\", line 245, in setup\n    _silent=settings.quiet or settings.silent,\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_login.py\", line 284, in _login\n    wlogin.prompt_api_key()\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_login.py\", line 219, in prompt_api_key\n    raise UsageError(\"api_key not configured (no-tty). call \" + directive)\n",
+    "wandb.errors.UsageError: api_key not configured (no-tty). call wandb.login(key=[your_api_key])\n"
+  ],
+  "heartbeat": "2022-04-14T20:34:47.171981",
+  "host": {
+    "ENV": {},
+    "cpu": "Intel(R) Xeon(R) Silver 4214 CPU @ 2.20GHz",
+    "gpus": {
+      "driver_version": "510.54",
+      "gpus": [
+        {
+          "model": "NVIDIA GeForce RTX 2080 Ti",
+          "persistence_mode": false,
+          "total_memory": 11264
+        }
+      ]
+    },
+    "hostname": "b375f5b44a53",
+    "os": [
+      "Linux",
+      "Linux-5.4.0-107-generic-x86_64-with-debian-stretch-sid"
+    ],
+    "python_version": "3.6.8"
+  },
+  "meta": {
+    "command": "my_main",
+    "options": {
+      "--beat-interval": null,
+      "--capture": null,
+      "--comment": null,
+      "--debug": false,
+      "--enforce_clean": false,
+      "--file_storage": null,
+      "--force": false,
+      "--help": false,
+      "--loglevel": null,
+      "--mongo_db": null,
+      "--name": null,
+      "--pdb": false,
+      "--print-config": false,
+      "--priority": null,
+      "--queue": false,
+      "--s3": null,
+      "--sql": null,
+      "--tiny_db": null,
+      "--unobserved": false,
+      "COMMAND": null,
+      "UPDATE": [
+        "env_args.map_name=2c_vs_64zg",
+        "group=qmix-2c_vs_64zg-save-weights",
+        "save_model=True"
+      ],
+      "help": false,
+      "with": true
+    }
+  },
+  "resources": [],
+  "result": null,
+  "start_time": "2022-04-14T20:34:47.020098",
+  "status": "FAILED",
+  "stop_time": "2022-04-14T20:34:47.217882"
+}

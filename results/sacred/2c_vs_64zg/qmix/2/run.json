@@ -1,0 +1,136 @@
+{
+  "artifacts": [],
+  "command": "my_main",
+  "experiment": {
+    "base_dir": "/source/src",
+    "dependencies": [
+      "munch==2.5.0",
+      "numpy==1.16.3",
+      "sacred==0.8.2",
+      "torch==1.1.0",
+      "wandb==0.12.14"
+    ],
+    "mainfile": "main.py",
+    "name": "pymarl",
+    "repositories": [
+      {
+        "commit": "5bcbf54811ec3f2562ffd47d99d201bfc8217c40",
+        "dirty": true,
+        "url": "git@github.com:benellis3/pymarl2.git"
+      },
+      {
+        "commit": "5bcbf54811ec3f2562ffd47d99d201bfc8217c40",
+        "dirty": true,
+        "url": "git@github.com:benellis3/pymarl2.git"
+      }
+    ],
+    "sources": [
+      [
+        "main.py",
+        "_sources/main_78da08088489c3572a5a51e4e4f2df4e.py"
+      ],
+      [
+        "utils/logging.py",
+        "_sources/logging_bbd5e57a493f521cc49efce26ee07e51.py"
+      ]
+    ]
+  },
+  "fail_trace": [
+    "Traceback (most recent call last):\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_init.py\", line 993, in init\n    wi.setup(kwargs)\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_init.py\", line 133, in setup\n    self._wl = wandb_setup.setup()\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_setup.py\", line 299, in setup\n    ret = _setup(settings=settings)\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_setup.py\", line 294, in _setup\n    wl = _WandbSetup(settings=settings)\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_setup.py\", line 280, in __init__\n    _WandbSetup._instance = _WandbSetup__WandbSetup(settings=settings, pid=pid)\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_setup.py\", line 106, in __init__\n    self._settings = self._settings_setup(settings, self._early_logger)\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_setup.py\", line 123, in _settings_setup\n    s = wandb_settings.Settings()\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_settings.py\", line 972, in __init__\n    else Source.BASE,\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_settings.py\", line 240, in __init__\n    self._value = self._validate(self._preprocess(value))\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_settings.py\", line 289, in _validate\n    if not v(value):\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_settings.py\", line 828, in _validate_base_url\n    re.IGNORECASE,\n",
+    "  File \"/opt/conda/lib/python3.6/re.py\", line 233, in compile\n    return _compile(pattern, flags)\n",
+    "  File \"/opt/conda/lib/python3.6/re.py\", line 301, in _compile\n    p = sre_compile.compile(pattern, flags)\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 566, in compile\n    code = _code(p, flags)\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 551, in _code\n    _compile(code, p.data, flags)\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 146, in _compile\n    _compile(code, p, (flags | add_flags) & ~del_flags)\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 187, in _compile\n    _compile(code, av, flags)\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 146, in _compile\n    _compile(code, p, (flags | add_flags) & ~del_flags)\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 187, in _compile\n    _compile(code, av, flags)\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 134, in _compile\n    _compile(code, av[2], flags)\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 146, in _compile\n    _compile(code, p, (flags | add_flags) & ~del_flags)\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 146, in _compile\n    _compile(code, p, (flags | add_flags) & ~del_flags)\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 187, in _compile\n    _compile(code, av, flags)\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 126, in _compile\n    _compile(code, av[2], flags)\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 108, in _compile\n    _compile_charset(av, flags, code, fixup, fixes)\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 226, in _compile_charset\n    for op, av in _optimize_charset(charset, fixup, fixes):\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 272, in _optimize_charset\n    for i in r:\n",
+    "  File \"/opt/conda/lib/python3.6/sre_compile.py\", line 103, in fixup\n    return _sre.getlower(literal, flags)\n",
+    "KeyboardInterrupt\n",
+    "\nDuring handling of the above exception, another exception occurred:\n\n",
+    "Traceback (most recent call last):\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/sacred/config/captured_function.py\", line 42, in captured_function\n    result = wrapped(*args, **kwargs)\n",
+    "  File \"src/main.py\", line 35, in my_main\n    run_REGISTRY[_config['run']](_run, config, _log)\n",
+    "  File \"/source/src/run/run.py\", line 55, in run\n    logger.setup_wandb(args)\n",
+    "  File \"/source/src/utils/logging.py\", line 30, in setup_wandb\n    wandb.init(project=config.project, entity=config.entity, group=config.group, name=config.tag, config=config.__dict__)\n",
+    "  File \"/opt/conda/lib/python3.6/site-packages/wandb/sdk/wandb_init.py\", line 1016, in init\n    assert logger\n",
+    "AssertionError\n"
+  ],
+  "heartbeat": "2022-04-14T20:35:37.349116",
+  "host": {
+    "ENV": {},
+    "cpu": "Intel(R) Xeon(R) Silver 4214 CPU @ 2.20GHz",
+    "gpus": {
+      "driver_version": "510.54",
+      "gpus": [
+        {
+          "model": "NVIDIA GeForce RTX 2080 Ti",
+          "persistence_mode": false,
+          "total_memory": 11264
+        }
+      ]
+    },
+    "hostname": "88525b8bb861",
+    "os": [
+      "Linux",
+      "Linux-5.4.0-107-generic-x86_64-with-debian-stretch-sid"
+    ],
+    "python_version": "3.6.8"
+  },
+  "meta": {
+    "command": "my_main",
+    "options": {
+      "--beat-interval": null,
+      "--capture": null,
+      "--comment": null,
+      "--debug": false,
+      "--enforce_clean": false,
+      "--file_storage": null,
+      "--force": false,
+      "--help": false,
+      "--loglevel": null,
+      "--mongo_db": null,
+      "--name": null,
+      "--pdb": false,
+      "--print-config": false,
+      "--priority": null,
+      "--queue": false,
+      "--s3": null,
+      "--sql": null,
+      "--tiny_db": null,
+      "--unobserved": false,
+      "COMMAND": null,
+      "UPDATE": [
+        "env_args.map_name=2c_vs_64zg",
+        "group=qmix-2c_vs_64zg-save-weights",
+        "save_model=True"
+      ],
+      "help": false,
+      "with": true
+    }
+  },
+  "resources": [],
+  "result": null,
+  "start_time": "2022-04-14T20:35:37.242649",
+  "status": "FAILED",
+  "stop_time": "2022-04-14T20:35:37.350453"
+}
