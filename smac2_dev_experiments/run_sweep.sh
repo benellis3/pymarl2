@@ -1,4 +1,4 @@
-Phone Onol yes#!/bin/bash
+#!/bin/bash
 
 # USAGE ./smac2_dev_experiments/run_sweep.sh <SWEEP_ID>
 
