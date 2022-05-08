@@ -5,3 +5,5 @@ results/
 *.png
 *.zip
 .DS_Store
+.idea
+wandb/

@@ -76,10 +76,37 @@ def run(_run, _config, _log):
     os._exit(os.EX_OK)
 
 
-def evaluate_sequential(args, runner):
+def evaluate_sequential(args, buffer, runner, learner):
+    print("Starting evaluation")
+    from tqdm import tqdm
 
-    for _ in range(args.test_nepisode):
-        runner.run(test_mode=True)
+    win_rate = []
+    with th.no_grad():
+        for _ in tqdm(range(args.test_nepisode // args.batch_size_run)):
+            episode_batch = runner.run(test_mode=True)
+            win_rate.extend(runner.win_rate)
+            buffer.insert_episode_batch(episode_batch)
+
+    print(f"END WIN RATE  = {sum(win_rate)/len(win_rate)}")
+
+    if args.save_eval_buffer:
+        path = os.path.join(args.save_eval_buffer_path, args.env_args["map_name"],
+                            time.strftime("%Y-%m-%d_%H-%M-%S"))
+        print(f"saving evaluation buffer to {path}")
+        os.makedirs(path, exist_ok=True)
+        # Save buffer.
+        buffer.to("cpu")
+        th.save(buffer, os.path.join(path, 'eval_buffer.pth'))
+        buffer.to("cpu" if args.buffer_cpu_only else args.device)
+
+        # Save objects for masking experiment.
+        th.save(args, os.path.join(path, 'dataset_args.pkl'))
+        obs_feature_names, state_feature_names = runner.get_feature_names()
+        th.save({"observations": obs_feature_names, "state": state_feature_names},
+                os.path.join(path, 'feature_names.pkl'))
+
+        # Save learner.
+        learner.save_models(path)
 
     if args.save_replay:
         runner.save_replay()
@@ -164,7 +191,7 @@ def run_sequential(args, logger):
         runner.t_env = timestep_to_load
 
         if args.evaluate or args.save_replay:
-            evaluate_sequential(args, runner)
+            evaluate_sequential(args, buffer, runner, learner)
             return
 
     # start training

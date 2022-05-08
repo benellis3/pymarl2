@@ -51,11 +51,11 @@ for tdlambda in "${td_lambdas[@]}"; do
         for map in "${maps[@]}"; do
             for unit in "${units[@]}"; do
                 for((i=0;i<times;i++)); do
-                    gpu=${gpus[$(($count % ${#gpus[@]}))]}  
+                    gpu=${gpus[$(($count % ${#gpus[@]}))]}
                     group="${config}-${map}-${tag}"
                     ./run_docker.sh $gpu python3 src/main.py --config="$config" --env-config="$map" with group="$group" env_args.capability_config.n_units=$unit env_args.capability_config.start_positions.n_enemies=$unit use_wandb=True td_lambda=$tdlambda epsilon_anneal_time=$epsanneal save_model=True "${args[@]}" &
 
-                    count=$(($count + 1))     
+                    count=$(($count + 1))
                     if [ $(($count % $threads)) -eq 0 ]; then
                         wait
                     fi

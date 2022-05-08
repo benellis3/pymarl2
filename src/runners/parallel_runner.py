@@ -85,6 +85,13 @@ class ParallelRunner:
         self.t = 0
         self.env_steps_this_run = 0
 
+    def get_feature_names(self):
+        self.parent_conns[0].send(("build_feature_names", None))
+        obs_feature_names = self.parent_conns[0].recv()
+        self.parent_conns[0].send(("get_state_feature_names", None))
+        state_feature_names = self.parent_conns[0].recv()
+        return obs_feature_names, state_feature_names
+
     def run(self, test_mode=False):
         self.reset()
 
@@ -185,9 +192,12 @@ class ParallelRunner:
             parent_conn.send(("get_stats",None))
 
         env_stats = []
+        win_rate = []
         for parent_conn in self.parent_conns:
             env_stat = parent_conn.recv()
             env_stats.append(env_stat)
+            win_rate.append(env_stat["win_rate"])
+        self.win_rate = win_rate
 
         cur_stats = self.test_stats if test_mode else self.train_stats
         cur_returns = self.test_returns if test_mode else self.train_returns
@@ -259,6 +269,10 @@ def env_worker(remote, env_fn):
             remote.send(env.get_env_info())
         elif cmd == "get_stats":
             remote.send(env.get_stats())
+        elif cmd == "build_feature_names":
+            remote.send(env.build_feature_names())
+        elif cmd == "get_state_feature_names":
+            remote.send(env.get_state_feature_names())
         else:
             raise NotImplementedError
 
