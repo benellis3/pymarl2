@@ -16,7 +16,7 @@ fi
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 
-NV_GPU="$GPU" ${cmd} run \
+NV_GPU="$GPU" ${cmd} run -d \
     --name "$name" \
     --user "$(id -u)" \
     -e WANDB_API_KEY="$WANDB_API_KEY" \
