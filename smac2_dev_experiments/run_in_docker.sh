@@ -26,7 +26,7 @@ NV_GPU="$GPU" ${cmd} run -d \
     --memory 50g \
     -v "$(pwd)":/home/ms21sm/pymarl2 \
     pymarl:ms21sm_pymarl2 \
-    "${@:2}"
+    ${@:2}
 
 # E.g. commands.
 
