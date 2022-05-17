@@ -84,6 +84,12 @@ class EpisodeBatch:
             self.data.episode_data[k] = v.to(device)
         self.device = device
 
+    def pin_memory(self):
+        for k, v in self.data.transition_data.items():
+            self.data.transition_data[k] = v.pin_memory()
+        for k, v in self.data.episode_data.items():
+            self.data.episode_data[k] = v.pin_memory()
+
     def update(self, data, bs=slice(None), ts=slice(None), mark_filled=True):
         slices = self._parse_slices((bs, ts))
         for k, v in data.items():

@@ -1,6 +1,6 @@
 #!/bin/bash
 trap 'onCtrlC' INT
-set -x
+
 function onCtrlC () {
   echo 'Ctrl+C is captured'
   for pid in $(jobs -p); do

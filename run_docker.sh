@@ -15,10 +15,9 @@ fi
 
 NV_GPU="$GPU" ${cmd} run \
     -e WANDB_API_KEY=$WANDB_API_KEY \
-    -e WANDB_CONFIG_DIR=/source/ \
     --name $name \
     --user $(id -u) \
     --memory 100g \
-    -v $(pwd):/source \
-    -t pymarl2:ben_smac \
+     -v "$(pwd)":/home/ms21sm/pymarl2 \
+    pymarl:ms21sm_pymarl2 \
     ${@:2}

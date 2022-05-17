@@ -33,10 +33,7 @@ parameters:
       - enemy_shield
       - enemy_health_and_shield
       - enemy_distance
-  mask_state:
-    values:
-      - 0
-      - 1
+      - own_health
 program: smac2_dev_experiments/experiments/obs_masking_effects/main.py
 project: SMAC-v2-obs-masking-effects
 entity: oxwhirl

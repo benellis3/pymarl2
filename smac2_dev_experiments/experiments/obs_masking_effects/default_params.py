@@ -9,13 +9,15 @@ params = dict(
     group="dev-pymarl2",
     launch_time=launch_time,
     save_models=True,
-    save_every=50,
-    map_name="3s_vs_5z",
-    epochs=200,
-    batch_size=128,
+    save_best=True,
+    eval_every=5,
+    early_stopper_patience=10,
+    early_stopper_min_delta=0,
+    epochs=300,
+    batch_size=512,
     learning_rate=0.005,
-    mask_name="everything",
-    mask_state=0,
+    map_name="3s_vs_5z",
+    mask_name="nothing",
 )
 
 
