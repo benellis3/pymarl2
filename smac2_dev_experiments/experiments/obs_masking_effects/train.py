@@ -2,9 +2,16 @@ import wandb
 import torch
 
 
+def preprocess_training(loader):
+    wandb.log({
+        "training/batch/batch_size": loader.batch_size,
+        "training/batch/batch_in_epoch": loader.nb_batch
+    })
+
+
 def train(epoch, model, target_model, loader, mask, criterion, optimizer, device):
     running_loss = torch.tensor(0., device=device)
-    steps = 0
+    steps = torch.tensor(0., device=device)
     for _ in range(mask.nb_masks):
         for episode_sample in loader.sample_batches(device):
             target_q_vals, is_step_mask = target_model.forward(episode_sample)
@@ -18,12 +25,10 @@ def train(epoch, model, target_model, loader, mask, criterion, optimizer, device
             loss.backward()
             optimizer.step()
 
-            running_loss += loss.detach()
-            steps += 1
+            running_loss += (loss * total_steps).detach()
+            steps += total_steps
 
     wandb.log({
         "training/loss": running_loss.item() / steps,
-        "epoch": epoch,
-        "training/batch/size": loader.batch_size,
-        "training/batch/in_epoch": loader.nb_batch
+        "training/learning_rate": optimizer.param_groups[0]['lr']
     }, step=epoch)

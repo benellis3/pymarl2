@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# USAGE ./smac2_dev_experiments/run_sweep.sh <SWEEP_ID>
+# USAGE ./smac2_dev_experiments/run_sweep.sh <SWEEP_ID> <GPUS>
 
 SWEEP_ID=$1
-./smac2_dev_experiments/run_in_docker.sh 0 wandb agent $SWEEP_ID
-./smac2_dev_experiments/run_in_docker.sh 1 wandb agent $SWEEP_ID
-./smac2_dev_experiments/run_in_docker.sh 2 wandb agent $SWEEP_ID
-./smac2_dev_experiments/run_in_docker.sh 3 wandb agent $SWEEP_ID
-./smac2_dev_experiments/run_in_docker.sh 4 wandb agent $SWEEP_ID
-./smac2_dev_experiments/run_in_docker.sh 5 wandb agent $SWEEP_ID
-# Only 6 GPUS as CPU load already exceed 100% with that.
+for gpu in "${@:2}"
+do
+    ./smac2_dev_experiments/run_in_docker.sh $gpu wandb agent $SWEEP_ID
+done
+
+# small datasets: oxwhirl/SMAC2-masking-runs/cndzuvih
+# medium datasets: oxwhirl/SMAC2-masking-runs/vqajbssl
+# large datasets: oxwhirl/SMAC2-masking-runs/g70rsnj2

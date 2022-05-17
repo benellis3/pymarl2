@@ -23,24 +23,36 @@ class Loader:
         self.state_feature_names, self.obs_feature_names = feature_names["state"], feature_names["observations"]
         self.episode_buffer = torch.load(self.dataset_dir / "eval_buffer.pth")  # type: ReplayBuffer
         self.episode_buffer.pin_memory()
-
-        self.batch_size = batch_size if batch_size else self.guess_largest_batch_size()
+        self.max_batch_size = self.get_max_batch_size()
+        self.batch_size = self.closest_to_batch_size(batch_size) if batch_size else self.guess_largest_batch_size()
         self.nb_batch = len(self) // self.batch_size
 
     def __len__(self):
         return self.episode_buffer.episodes_in_buffer
 
-    def guess_largest_batch_size(self):
+    def closest_to_batch_size(self, batch_size):
+        max_size = self.max_batch_size / 2  # Training consumes memory for autograd and so on ...
+        if batch_size <= max_size:
+            return batch_size
+        else:
+            while batch_size > max_size:
+                batch_size //= 2
+            return batch_size
+
+    def get_max_batch_size(self):
         device_memory = torch.cuda.get_device_properties(0).total_memory
         obs = self.episode_buffer["obs"]
         size_of_one_obs = sys.getsizeof(obs.storage()) / len(self)
         size_of_one_episode = size_of_one_obs * EPISODE_TO_OBS_SIZE_RATIO
         max_batch_size = device_memory // size_of_one_episode
-        if max_batch_size >= len(self):
+        return max_batch_size
+
+    def guess_largest_batch_size(self):
+        if self.max_batch_size >= len(self):
             return len(self)
         else:
             possible_batch_sizes = [4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1]
-            batch_size = max(filter(lambda size: size <= max_batch_size, possible_batch_sizes))
+            batch_size = max(filter(lambda size: size <= self.max_batch_size, possible_batch_sizes))
             return batch_size
 
     def sample_batches(self, device):
@@ -53,7 +65,7 @@ class Loader:
 
     def get_validation_batches(self, device, max_seq_length=None):
         for i in range(self.nb_batch):
-            episode_sample = self.episode_buffer[i:i + self.batch_size]
+            episode_sample = self.episode_buffer[i*self.batch_size: (i+1)*self.batch_size]
             episode_sample.to(device)
             if max_seq_length is not None:
                 episode_sample = episode_sample[:, :max_seq_length]

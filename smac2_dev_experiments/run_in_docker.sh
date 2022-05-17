@@ -16,14 +16,13 @@ fi
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 
-NV_GPU="$GPU" ${cmd} run -it \
+NV_GPU="$GPU" ${cmd} run -d \
     --name "$name" \
     --user "$(id -u)" \
-    -e WANDB_API_KEY="$WANDB_API_KEY" \
+    -e WANDB_API_KEY="5f835060df72f0b208fc2c9f395c5c24d2fdfd30" \
     -e PYTHONPATH=/home/ms21sm/pymarl2/src:/home/ms21sm/pymarl2/smac2_dev_experiments \
     -e LC_ALL=C.UTF-8 \
     -e LANG=C.UTF-8 \
-    --memory 50g \
     -v "$(pwd)":/home/ms21sm/pymarl2 \
     pymarl:ms21sm_pymarl2 \
     ${@:2}

@@ -7,9 +7,9 @@ from tqdm import tqdm
 
 from data.loader import Loader, build_mask
 from models.nqmix import NQmixNet
-from experiments.obs_masking_effects.train import train
-from experiments.obs_masking_effects.evaluate import SingleMaskEarlyStopper, AllMasksEarlyStopper, evaluate_single_mask, \
-    evaluate_all_masks, preprocess_evaluation
+from experiments.obs_masking_effects.train import train, preprocess_training
+from experiments.obs_masking_effects.evaluate import SingleMaskEarlyStopper, AllMasksEarlyStopper, \
+    evaluate_single_mask, evaluate_all_masks, preprocess_evaluation, log_best_results
 from experiments.obs_masking_effects.default_params import parse_arguments
 
 
@@ -17,8 +17,6 @@ def get_save_dir_prefix(config):
     save_dir = pathlib.Path(__file__).parent.resolve()
     save_dir = save_dir / "best_results" / config.map_name
     return save_dir
-
-    model.save_models(save_dir)
 
 
 # Set experiment parameter.
@@ -28,7 +26,8 @@ run = wandb.init(project=params.project,
                  entity=params.entity,
                  config=vars(params),
                  group=params.group,
-                 mode="disabled")
+                 name=f"{params.mask_name}_{params.map_name}_{params.launch_time}",
+                 mode="online")
 config = wandb.config  # Updated from wandb server if running a sweep.
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device, config)
@@ -47,10 +46,10 @@ Stopper = AllMasksEarlyStopper if config.mask_name == "random" else SingleMaskEa
 early_stopper = Stopper(config.early_stopper_patience, config.early_stopper_min_delta)
 
 # Training.
+preprocess_training(training_loader)
 eval_preprocess = preprocess_evaluation(target_model, evaluation_loader, device)
 for epoch in tqdm(range(1, 1 + config.epochs)):
     train(epoch, model, target_model, training_loader, mask, criterion, optimizer, device)
-
     if epoch % config.eval_every == 0:
         if config.mask_name == "random":
             eval_metrics = evaluate_all_masks(epoch, model, target_model, evaluation_loader, criterion, device)
@@ -59,7 +58,8 @@ for epoch in tqdm(range(1, 1 + config.epochs)):
                                                 criterion, device, config.mask_name)
 
         if early_stopper.should_stop(eval_metrics, model, epoch):
-            print(f"Early stopping at epoch {epoch}")
+            print(f"Early stopping at epoch {epoch}. Best achieved at {early_stopper.best_epoch}.")
+            log_best_results(early_stopper.best_metrics)
             if config.save_best:
                 early_stopper.save_best(get_save_dir_prefix(config))
             break

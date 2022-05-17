@@ -4,19 +4,18 @@ import time
 launch_time = time.strftime("%Y-%m-%d_%H-%M-%S")
 
 params = dict(
-    project="SMAC-v2-obs-masking-effects",
+    project="SMAC2-masking-runs",
     entity="oxwhirl",
-    group="dev-pymarl2",
+    group="dev-pymarl2-smac1",
     launch_time=launch_time,
-    save_models=True,
     save_best=True,
     eval_every=5,
     early_stopper_patience=10,
     early_stopper_min_delta=0,
-    epochs=300,
+    epochs=500,
     batch_size=512,
     learning_rate=0.005,
-    map_name="3s_vs_5z",
+    map_name="27m_vs_30m",
     mask_name="nothing",
 )
 
