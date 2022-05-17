@@ -41,7 +41,8 @@ class SingleMaskEarlyStopper:
         save_dir = save_dir / self.best_metrics["mask_name"]
         os.makedirs(save_dir, exist_ok=True)
         self.best_model.save_models(save_dir)
-        pd.DataFrame(data=self.best_metrics)
+        metrics = pd.DataFrame(data={key: [val] for key, val in self.best_metrics.items()})
+        metrics.to_json(save_dir / "metrics_dataframe.json")
 
 
 class AllMasksEarlyStopper:
