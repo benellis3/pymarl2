@@ -27,7 +27,7 @@ run = wandb.init(project=params.project,
                  config=vars(params),
                  group=params.group,
                  name=f"{params.mask_name}_{params.map_name}_{params.launch_time}",
-                 mode="disabled")
+                 mode="online")
 config = wandb.config  # Updated from wandb server if running a sweep.
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device, config)
