@@ -9,7 +9,7 @@ EPISODE_STEP_DIM = 1
 AGENT_DIM = 2
 FEATURE_DIM = -1
 
-EPISODE_TO_OBS_SIZE_RATIO = 3  # Safe margin.
+EPISODE_TO_OBS_SIZE_RATIO = 3.2  # Safe margin. Magic number.
 
 
 class Loader:
@@ -26,6 +26,7 @@ class Loader:
         self.max_batch_size = self.get_max_batch_size()
         self.batch_size = self.closest_to_batch_size(batch_size) if batch_size else self.guess_largest_batch_size()
         self.nb_batch = len(self) // self.batch_size
+        print(f"{dataset_type} dataset. Max batch_size {self.max_batch_size}. Effective batch size {self.batch_size}.")
 
     def __len__(self):
         return self.episode_buffer.episodes_in_buffer

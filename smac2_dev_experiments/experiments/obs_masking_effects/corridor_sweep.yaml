@@ -1,4 +1,4 @@
-name: add_best_eval_small_datasets
+name: fix_corridor_medium_datasets
 method: grid
 metric:
   goal: minimize
@@ -26,10 +26,7 @@ parameters:
       - own_health
   map_name:
     values:
-      - 3s_vs_5z
-      - 5m_vs_6m
-      - 6h_vs_8z
-#      - 8m_vs_9m
+      - corridor
 program: smac2_dev_experiments/experiments/obs_masking_effects/main.py
 project: SMAC2-masking-runs
 entity: oxwhirl
