@@ -5,8 +5,6 @@ import torch
 import wandb
 import pandas as pd
 
-from data.loader import features_to_mask_map
-
 BATCH_DIM = 0
 STEP_DIM = 1
 
@@ -40,21 +38,6 @@ class SingleMaskEarlyStopper:
         self.best_model.save_models(save_dir)
         metrics = pd.DataFrame(data={key: [val] for key, val in self.best_metrics.items()})
         metrics.to_json(save_dir / "metrics_dataframe.json")
-
-
-class AllMasksEarlyStopper:
-    def __init__(self, early_stopper_patience, early_stopper_min_delta):
-        self.stoppers = dict([
-            (mask_name, SingleMaskEarlyStopper(early_stopper_patience, early_stopper_min_delta))
-            for mask_name in features_to_mask_map.keys()
-        ])
-
-    def should_stop(self, metrics_dict, epoch):
-        _should_stop = True
-        for mask_name, metrics in metrics_dict.items():
-            _should_stop = _should_stop and self.stoppers[mask_name].should_stop(metrics, epoch)
-        return _should_stop
-
 
 def plot_line_wandb(x, y_label, title):
     data = [[x, y] for (x, y) in zip(range(len(x)), x)]
@@ -263,28 +246,3 @@ def log_best_results(metrics):
                                                                     "step_mean_deviation"),
         "validation/best/epoch": metrics["epoch"],
     })
-
-
-# TODO: WIP
-
-def evaluate_all_masks(epoch, model, target_model, loader, criterion, device):
-    new_eval_metrics = {}
-    for mask_name, mask in features_to_mask_map.items():
-        metric = evaluate_single_mask(epoch, model, target_model, loader, mask, criterion, device, mask_name)
-        new_eval_metrics[mask_name] = metric
-
-    return new_eval_metrics
-
-
-def evaluate_all_masks_v2(epoch, model, target_model, loader, criterion, device):
-    def eval_(inpu):
-        mask_name, mask = inpu
-        metric = evaluate_single_mask(epoch, model, target_model, loader, mask, criterion, device, mask_name)
-        return mask_name, metric
-
-    new_eval_metrics = {}
-    evals = map(eval_, features_to_mask_map.items())
-    for mask_name, metric in evals:
-        new_eval_metrics[mask_name] = metric
-
-    return new_eval_metrics

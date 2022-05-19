@@ -15,8 +15,8 @@ params = dict(
     epochs=500,
     batch_size=512,
     learning_rate=0.005,
-    map_name="27m_vs_30m",
-    mask_name="nothing",
+    map_name="3s_vs_5z",
+    mask_name="ally_health",
 )
 
 
