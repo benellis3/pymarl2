@@ -14,9 +14,9 @@ EPISODE_TO_OBS_SIZE_RATIO = 3.2  # Safe margin. Magic number.
 
 class Loader:
 
-    def __init__(self, map_name, dataset_type, batch_size=None):
+    def __init__(self, map_name, dataset_type, batch_size=None, smac_version=1):
         self.map_name = map_name
-        self.dataset_dir = pathlib.Path(__file__).parent.resolve() / "masking" / map_name / dataset_type
+        self.dataset_dir = pathlib.Path(__file__).parent.resolve() / f"smac{smac_version}" / map_name / dataset_type
         self.dataset_args = torch.load(self.dataset_dir / "dataset_args.pkl")
 
         feature_names = torch.load(self.dataset_dir / "feature_names.pkl")

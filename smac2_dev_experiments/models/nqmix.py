@@ -6,10 +6,11 @@ from controllers.n_controller import NMAC
 
 
 class NQmixNet:
-    def __init__(self, loader, device, is_target=False):
+    def __init__(self, loader, device, is_target=False, sensitivity=False):
         self.device = device
         self.dataset_args = loader.dataset_args
         self.is_target = is_target
+        self.sensitivity = sensitivity
 
         self.mac = NMAC(loader.episode_buffer.scheme, None, loader.dataset_args)
         self.mixer = Mixer(loader.dataset_args)
@@ -38,7 +39,7 @@ class NQmixNet:
             torch.load("{}/mixer.th".format(path), map_location=lambda storage, loc: storage))
 
     def forward(self, batch: EpisodeBatch):
-        if self.is_target:
+        if self.is_target and not self.sensitivity:
             with torch.no_grad():
                 return self._forward(batch)
         else:

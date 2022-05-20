@@ -39,8 +39,9 @@ class SingleMaskEarlyStopper:
         metrics = pd.DataFrame(data={key: [val] for key, val in self.best_metrics.items()})
         metrics.to_json(save_dir / "metrics_dataframe.json")
 
-def plot_line_wandb(x, y_label, title):
-    data = [[x, y] for (x, y) in zip(range(len(x)), x)]
+
+def plot_line_wandb(y, y_label, title):
+    data = [[x, y] for (x, y) in enumerate(y)]
     table = wandb.Table(data=data, columns=["step", y_label])
     return wandb.plot.line(table, "step", y_label, title=title)
 

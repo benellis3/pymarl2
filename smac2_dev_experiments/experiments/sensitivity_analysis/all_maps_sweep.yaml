@@ -1,0 +1,23 @@
+name: all_maps
+method: grid
+metric:
+  goal: minimize
+  name: sensitivity/null
+parameters:
+  group:
+    values:
+      - run_pymarl2_smac1_sensitivity
+  map_name:
+    values:
+      - 3s_vs_5z
+      - 5m_vs_6m
+      - 6h_vs_8z
+      - 8m_vs_9m
+      - 2c_vs_64zg
+      - 3s5z_vs_3s6z
+      - corridor
+      - MMM2
+      - 27m_vs_30m
+program: smac2_dev_experiments/experiments/sensitivity_analysis/main.py
+project: SMAC2-masking-runs
+entity: oxwhirl
