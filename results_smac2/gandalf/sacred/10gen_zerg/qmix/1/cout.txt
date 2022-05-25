@@ -1,0 +1,307 @@
+[INFO 23:55:52] pymarl Running command 'my_main'
+[INFO 23:55:52] pymarl Started run with ID "1"
+[DEBUG 23:55:52] pymarl Starting Heartbeat
+[DEBUG 23:55:52] my_main Started
+[INFO 23:55:52] my_main Experiment Parameters:
+[INFO 23:55:52] my_main 
+
+{   'action_selector': 'epsilon_greedy',
+    'agent': 'n_rnn',
+    'agent_output_type': 'q',
+    'batch_size': 128,
+    'batch_size_run': 4,
+    'buffer_cpu_only': True,
+    'buffer_size': 5000,
+    'checkpoint_path': '',
+    'critic_lr': 0.0005,
+    'entity': 'oxwhirl',
+    'env': 'sc2wrapped',
+    'env_args': {   'capability_config': {   'n_units': 15,
+                                             'start_positions': {   'dist_type': 'surrounded_and_reflect',
+                                                                    'map_x': 32,
+                                                                    'map_y': 32,
+                                                                    'n_enemies': 15,
+                                                                    'p': 0.5},
+                                             'team_gen': {   'dist_type': 'all_teams',
+                                                             'observe': True,
+                                                             'unit_types': [   'zergling',
+                                                                               'baneling',
+                                                                               'hydralisk']}},
+                    'conic_fov': True,
+                    'continuing_episode': False,
+                    'debug': False,
+                    'difficulty': '7',
+                    'game_version': None,
+                    'heuristic_ai': False,
+                    'map_name': '10gen_zerg',
+                    'move_amount': 2,
+                    'num_fov_actions': 12,
+                    'obs_all_health': True,
+                    'obs_instead_of_state': False,
+                    'obs_last_action': False,
+                    'obs_own_health': True,
+                    'obs_pathing_grid': False,
+                    'obs_terrain_height': False,
+                    'obs_timestep_number': False,
+                    'replay_dir': '',
+                    'replay_prefix': '',
+                    'reward_death_value': 10,
+                    'reward_defeat': 0,
+                    'reward_negative_scale': 0.5,
+                    'reward_only_positive': True,
+                    'reward_scale': True,
+                    'reward_scale_rate': 20,
+                    'reward_sparse': False,
+                    'reward_win': 200,
+                    'seed': 257608447,
+                    'state_last_action': True,
+                    'state_timestep_number': False,
+                    'step_mul': 8},
+    'epsilon_anneal_time': 500000,
+    'epsilon_finish': 0.05,
+    'epsilon_start': 1.0,
+    'evaluate': False,
+    'gamma': 0.99,
+    'grad_norm_clip': 10,
+    'group': 'qmix-sc2_gen_zerg-gandalf',
+    'hypernet_embed': 64,
+    'label': 'default_label',
+    'learner': 'nq_learner',
+    'learner_log_interval': 2000,
+    'load_step': 0,
+    'local_results_path': 'results',
+    'log_interval': 2000,
+    'lr': 0.001,
+    'mac': 'n_mac',
+    'mixer': 'qmix',
+    'mixing_embed_dim': 32,
+    'name': 'qmix',
+    'obs_agent_id': True,
+    'obs_last_action': True,
+    'optim_alpha': 0.99,
+    'optim_eps': 1e-05,
+    'optimizer': 'adam',
+    'project': 'smac_v2_hyperparams',
+    'q_lambda': False,
+    'repeat_id': 1,
+    'rnn_hidden_dim': 64,
+    'run': 'default',
+    'runner': 'parallel',
+    'runner_log_interval': 2000,
+    'save_model': False,
+    'save_model_interval': 2000000,
+    'save_replay': False,
+    'seed': 257608447,
+    't_max': 10050000,
+    'target_update_interval': 200,
+    'td_lambda': 0.9,
+    'test_greedy': True,
+    'test_interval': 10000,
+    'test_nepisode': 32,
+    'use_cuda': True,
+    'use_tensorboard': False,
+    'use_wandb': True}
+
+[DEBUG 23:55:52] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/source, universal_newlines=False, shell=None, istream=None)
+[DEBUG 23:55:52] urllib3.connectionpool Starting new HTTPS connection (1): api.wandb.ai:443
+[DEBUG 23:55:52] urllib3.connectionpool https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 484
+[DEBUG 23:55:52] urllib3.connectionpool Starting new HTTPS connection (1): api.wandb.ai:443
+[DEBUG 23:55:52] urllib3.connectionpool https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 345
+wandb: Currently logged in as: benellis3 (oxwhirl). Use `wandb login --relogin` to force relogin
+[DEBUG 23:55:52] git.cmd Popen(['git', 'cat-file', '--batch-check'], cwd=/source, universal_newlines=False, shell=None, istream=<valid stream>)
+wandb: Tracking run with wandb version 0.12.16
+wandb: Run data is saved locally in /source/wandb/run-20220515_235552-w8if5k0q
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run qmix-10gen_zerg-ebc35b
+wandb: ⭐️ View project at https://wandb.ai/oxwhirl/smac_v2_hyperparams
+wandb: 🚀 View run at https://wandb.ai/oxwhirl/smac_v2_hyperparams/runs/w8if5k0q
+Mixer Size: 
+165.985K
+[INFO 23:55:57] my_main Beginning training for 10050000 timesteps
+[INFO 23:55:57] absl Launching SC2: /source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64 -listen 127.0.0.1 -port 16018 -dataDir /source/3rdparty/StarCraftII/ -tempDir /tmp/sc-my36b9bj/
+[INFO 23:55:57] absl Launching SC2: /source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64 -listen 127.0.0.1 -port 16768 -dataDir /source/3rdparty/StarCraftII/ -tempDir /tmp/sc-sr4rp0ju/
+[INFO 23:55:57] absl Launching SC2: /source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64 -listen 127.0.0.1 -port 21871 -dataDir /source/3rdparty/StarCraftII/ -tempDir /tmp/sc-hh6n_fbl/
+[INFO 23:55:57] absl Launching SC2: /source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64 -listen 127.0.0.1 -port 16018 -dataDir /source/3rdparty/StarCraftII/ -tempDir /tmp/sc-0a48kaai/
+[INFO 23:55:57] absl Connecting to: ws://127.0.0.1:16768/sc2api, attempt: 0, running: True
+[INFO 23:55:57] absl Connecting to: ws://127.0.0.1:21871/sc2api, attempt: 0, running: True
+Version: B75689 (SC2.4.10)
+Build: Aug 12 2019 17:16:57
+Command Line: '"/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64" -listen 127.0.0.1 -port 16768 -dataDir /source/3rdparty/StarCraftII/ -tempDir /tmp/sc-sr4rp0ju/'
+Version: B75689 (SC2.4.10)
+Build: Aug 12 2019 17:16:57
+Command Line: '"/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64" -listen 127.0.0.1 -port 21871 -dataDir /source/3rdparty/StarCraftII/ -tempDir /tmp/sc-hh6n_fbl/'
+[INFO 23:55:57] absl Connecting to: ws://127.0.0.1:16018/sc2api, attempt: 0, running: True
+[INFO 23:55:57] absl Connecting to: ws://127.0.0.1:16018/sc2api, attempt: 0, running: True
+Version: B75689 (SC2.4.10)
+Version: B75689 (SC2.4.10)
+Build: Aug 12 2019 17:16:57
+Build: Aug 12 2019 17:16:57
+Command Line: '"/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64" -listen 127.0.0.1 -port 16018 -dataDir /source/3rdparty/StarCraftII/ -tempDir /tmp/sc-my36b9bj/'
+Command Line: '"/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64" -listen 127.0.0.1 -port 16018 -dataDir /source/3rdparty/StarCraftII/ -tempDir /tmp/sc-0a48kaai/'
+Starting up...
+Starting up...
+Starting up...
+Starting up...
+Startup Phase 1 complete
+Startup Phase 1 complete
+Startup Phase 1 complete
+Startup Phase 1 complete
+[INFO 23:55:58] absl Connecting to: ws://127.0.0.1:16768/sc2api, attempt: 1, running: True
+[INFO 23:55:58] absl Connecting to: ws://127.0.0.1:21871/sc2api, attempt: 1, running: True
+[INFO 23:55:58] absl Connecting to: ws://127.0.0.1:16018/sc2api, attempt: 1, running: True
+[INFO 23:55:58] absl Connecting to: ws://127.0.0.1:16018/sc2api, attempt: 1, running: True
+Startup Phase 2 complete
+Creating stub renderer...
+Startup Phase 2 complete
+Creating stub renderer...
+Startup Phase 2 complete
+Startup Phase 2 complete
+Creating stub renderer...
+Creating stub renderer...
+Listening on: 127.0.0.1:16018
+Startup Phase 3 complete. Ready for commands.
+Listening on: 127.0.0.1:16768
+cannot bind to 127.0.0.1:16018: 98 (Address already in use)
+Error creating listener on: 127.0.0.1:16018
+Failed to initialize port
+Startup Phase 3 complete. Ready for commands.
+Error signal: '11'
+Backtrace:
+/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64[0x65e743]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3ef10)[0x7fc932dc5f10]
+/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64[0x6aab63]
+/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64[0x66072f]
+/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64[0x66091d]
+/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64[0x660779]
+/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64[0x1369f52]
+/lib/x86_64-linux-gnu/libc.so.6(+0x43031)[0x7fc932dca031]
+/lib/x86_64-linux-gnu/libc.so.6(+0x4312a)[0x7fc932dca12a]
+/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64[0x6855ce]
+/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64[0x1030975]
+/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64[0x1b8cdc0]
+/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64[0x1b92338]
+/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64[0x5f8805]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7fc932da8c87]
+/source/3rdparty/StarCraftII/Versions/Base75689/SC2_x64[0x5f7f59]
+[INFO 23:55:59] absl Connecting to: ws://127.0.0.1:21871/sc2api, attempt: 2, running: True
+[INFO 23:55:59] absl Connecting to: ws://127.0.0.1:16768/sc2api, attempt: 2, running: True
+ConnectHandler: Request from 127.0.0.1:40860 accepted
+ReadyHandler: 127.0.0.1:40860 ready
+[INFO 23:55:59] absl Connecting to: ws://127.0.0.1:16018/sc2api, attempt: 2, running: True
+ConnectHandler: Request from 127.0.0.1:43558 accepted
+ReadyHandler: 127.0.0.1:43558 ready
+[INFO 23:55:59] absl Connecting to: ws://127.0.0.1:16018/sc2api, attempt: 2, running: True
+ConnectHandler: Request from 127.0.0.1:43560 rejected
+Requesting to join a single player game
+Configuring interface options
+Configure: raw interface enabled
+Configure: feature layer interface disabled
+Configure: score interface disabled
+Configure: render interface disabled
+Launching next game.
+Next launch phase started: 2
+Next launch phase started: 3
+Next launch phase started: 4
+Next launch phase started: 5
+Next launch phase started: 6
+Next launch phase started: 7
+Next launch phase started: 8
+Requesting to join a single player game
+Configuring interface options
+Configure: raw interface enabled
+Configure: feature layer interface disabled
+Configure: score interface disabled
+Configure: render interface disabled
+Launching next game.
+Next launch phase started: 2
+Next launch phase started: 3
+Next launch phase started: 4
+Next launch phase started: 5
+Next launch phase started: 6
+Next launch phase started: 7
+Next launch phase started: 8
+Listening on: 127.0.0.1:21871
+Startup Phase 3 complete. Ready for commands.
+[INFO 23:55:59] absl Shutdown gracefully.
+[INFO 23:55:59] absl Shutdown with return code: -6
+Process Process-5:
+Traceback (most recent call last):
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/lib/remote_controller.py", line 169, in _connect
+    return websocket.create_connection(url, timeout=timeout_seconds)
+  File "/home/benlis/.local/lib/python3.8/site-packages/websocket/_core.py", line 601, in create_connection
+    websock.connect(url, **options)
+  File "/home/benlis/.local/lib/python3.8/site-packages/websocket/_core.py", line 248, in connect
+    self.handshake_response = handshake(self.sock, url, *addrs, **options)
+  File "/home/benlis/.local/lib/python3.8/site-packages/websocket/_handshake.py", line 57, in handshake
+    status, resp = _get_resp_headers(sock)
+  File "/home/benlis/.local/lib/python3.8/site-packages/websocket/_handshake.py", line 146, in _get_resp_headers
+    status, resp_headers, status_message = read_headers(sock)
+  File "/home/benlis/.local/lib/python3.8/site-packages/websocket/_http.py", line 313, in read_headers
+    line = recv_line(sock)
+  File "/home/benlis/.local/lib/python3.8/site-packages/websocket/_socket.py", line 131, in recv_line
+    c = recv(sock, 1)
+  File "/home/benlis/.local/lib/python3.8/site-packages/websocket/_socket.py", line 122, in recv
+    raise WebSocketConnectionClosedException(
+websocket._exceptions.WebSocketConnectionClosedException: Connection to remote host was lost.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/opt/conda/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/source/src/runners/parallel_runner.py", line 248, in env_worker
+    env.reset()
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/wrapper.py", line 32, in reset
+    return self.env.reset(reset_config)
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/starcraft2.py", line 500, in reset
+    self._launch()
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/starcraft2.py", line 415, in _launch
+    self._sc2_proc = self._run_config.start(
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 204, in start
+    return super(Linux, self).start(
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 87, in start
+    return sc_process.StarcraftProcess(
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/lib/sc_process.py", line 142, in __init__
+    self._controller = remote_controller.RemoteController(
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/lib/remote_controller.py", line 146, in __init__
+    sock = self._connect(host, port, proc, timeout_seconds)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/lib/stopwatch.py", line 212, in _stopwatch
+    return func(*args, **kwargs)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/lib/remote_controller.py", line 173, in _connect
+    raise ConnectError("Connection rejected. Is something else connected?")
+pysc2.lib.remote_controller.ConnectError: Connection rejected. Is something else connected?
+[INFO 23:56:00] absl Connecting to: ws://127.0.0.1:21871/sc2api, attempt: 3, running: True
+ConnectHandler: Request from 127.0.0.1:38040 accepted
+ReadyHandler: 127.0.0.1:38040 ready
+Requesting to join a single player game
+Configuring interface options
+Configure: raw interface enabled
+Configure: feature layer interface disabled
+Configure: score interface disabled
+Configure: render interface disabled
+Launching next game.
+Next launch phase started: 2
+Next launch phase started: 3
+Next launch phase started: 4
+Next launch phase started: 5
+Next launch phase started: 6
+Next launch phase started: 7
+Next launch phase started: 8
+Game has started.
+Using default stable ids, none found at: /source/3rdparty/StarCraftII/stableid.json
+Successfully loaded stable ids: GameData\stableid.json
+Sending ResponseJoinGame
+Game has started.
+Using default stable ids, none found at: /source/3rdparty/StarCraftII/stableid.json
+Successfully loaded stable ids: GameData\stableid.json
+Sending ResponseJoinGame
+Game has started.
+Using default stable ids, none found at: /source/3rdparty/StarCraftII/stableid.json
+Successfully loaded stable ids: GameData\stableid.json
+Sending ResponseJoinGame
+wandb: Network error (ReadTimeout), entering retry loop.
+wandb: Network error (ReadTimeout), entering retry loop.
+wandb: Network error (ReadTimeout), entering retry loop.
+wandb: Network error (ReadTimeout), entering retry loop.
