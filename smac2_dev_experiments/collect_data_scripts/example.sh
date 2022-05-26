@@ -13,8 +13,8 @@ function onCtrlC () {
 
 config=$1  # qmix
 tag=$2  # train, evaluate, or debug.
-maps=${3:-sc2_gen_protoss,sc2_gen_terran,sc2_gen_zerg}
-units=${8:-5,10,20}
+maps=${3:-sc2_protoss}
+units=${8:-20}
 
 # Edit this.
 declare -A weight_location
@@ -48,23 +48,15 @@ weight_location=(
 ["20_gen_zerg_seed_2"]="results_smac2/gandalf/models/qmix__2022-05-21_19-16-05"
 )
 
-threads=${4:-8} # 2
+threads=${4:-5} # 2
 args=${5:-}    # ""
 gpus=${6:-0,1,2,3,4,5,6,7}    # 0,1
-times=${7:-3}   # 5 # corresponds to seeds.
+times=${7:-1}   # 5
 
 maps=(${maps//,/ })
 units=(${units//,/ })
 gpus=(${gpus//,/ })
 args=(${args//,/ })
-
-
-declare -A buffer_size
-buffer_size=(
-["train"]=8192
-["evaluate"]=4096
-["debug"]=32
-)
 
 if [ ! $config ] || [ ! $tag ]; then
     echo "Please enter the correct command."
@@ -80,6 +72,13 @@ echo "GPU LIST:" ${gpus[@]}
 echo "TIMES:" $times
 echo "TDLAMBDAS:" ${td_lambdas[@]}
 echo "EPSANNEALS:" ${eps_anneals[@]}
+
+declare -A buffer_size
+buffer_size=(
+["train"]=256
+["evaluate"]=256
+["debug"]=512
+)
 
 # run parallel
 count=0
@@ -113,4 +112,3 @@ for map in "${maps[@]}"; do
     done
 done
 wait
-
