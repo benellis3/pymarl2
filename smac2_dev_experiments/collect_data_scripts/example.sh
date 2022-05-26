@@ -13,7 +13,7 @@ function onCtrlC () {
 
 config=$1  # qmix
 tag=$2  # train, evaluate, or debug.
-maps=${3:-sc2_protoss}
+maps=${3:-sc2_gen_protoss}
 units=${8:-20}
 
 # Edit this.
@@ -58,6 +58,13 @@ units=(${units//,/ })
 gpus=(${gpus//,/ })
 args=(${args//,/ })
 
+declare -A buffer_size
+buffer_size=(
+["train"]=128
+["evaluate"]=64
+["debug"]=512
+)
+
 if [ ! $config ] || [ ! $tag ]; then
     echo "Please enter the correct command."
     echo "bash run.sh config_name map_name_list (experinments_threads_num arg_list gpu_list experinments_num)"
@@ -72,13 +79,6 @@ echo "GPU LIST:" ${gpus[@]}
 echo "TIMES:" $times
 echo "TDLAMBDAS:" ${td_lambdas[@]}
 echo "EPSANNEALS:" ${eps_anneals[@]}
-
-declare -A buffer_size
-buffer_size=(
-["train"]=256
-["evaluate"]=256
-["debug"]=512
-)
 
 # run parallel
 count=0
