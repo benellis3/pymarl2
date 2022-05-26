@@ -1,0 +1,216 @@
+[INFO 13:05:36] pymarl Running command 'my_main'
+[INFO 13:05:36] pymarl Started run with ID "1"
+[DEBUG 13:05:36] pymarl Starting Heartbeat
+[DEBUG 13:05:36] my_main Started
+[INFO 13:05:36] my_main Experiment Parameters:
+[INFO 13:05:36] my_main 
+
+{   'action_selector': 'epsilon_greedy',
+    'agent': 'n_rnn',
+    'agent_output_type': 'q',
+    'batch_size': 128,
+    'batch_size_run': 4,
+    'buffer_cpu_only': True,
+    'buffer_size': 5000,
+    'checkpoint_path': '',
+    'critic_lr': 0.0005,
+    'entity': 'oxwhirl',
+    'env': 'sc2wrapped',
+    'env_args': {   'capability_config': {   'n_units': 15,
+                                             'start_positions': {   'dist_type': 'surrounded_and_reflect',
+                                                                    'map_x': 32,
+                                                                    'map_y': 32,
+                                                                    'n_enemies': 15,
+                                                                    'p': 0.5},
+                                             'team_gen': {   'dist_type': 'all_teams',
+                                                             'exception_unit_types': [   'medivac'],
+                                                             'observe': True,
+                                                             'unit_types': [   'marine',
+                                                                               'marauder',
+                                                                               'medivac']}},
+                    'conic_fov': True,
+                    'continuing_episode': False,
+                    'debug': False,
+                    'difficulty': '7',
+                    'game_version': None,
+                    'heuristic_ai': False,
+                    'map_name': '10gen_terran',
+                    'move_amount': 2,
+                    'num_fov_actions': 12,
+                    'obs_all_health': True,
+                    'obs_instead_of_state': False,
+                    'obs_last_action': False,
+                    'obs_own_health': True,
+                    'obs_pathing_grid': False,
+                    'obs_terrain_height': False,
+                    'obs_timestep_number': False,
+                    'replay_dir': '',
+                    'replay_prefix': '',
+                    'reward_death_value': 10,
+                    'reward_defeat': 0,
+                    'reward_negative_scale': 0.5,
+                    'reward_only_positive': True,
+                    'reward_scale': True,
+                    'reward_scale_rate': 20,
+                    'reward_sparse': False,
+                    'reward_win': 200,
+                    'seed': 157174905,
+                    'state_last_action': True,
+                    'state_timestep_number': False,
+                    'step_mul': 8},
+    'epsilon_anneal_time': 100000,
+    'epsilon_finish': 0.05,
+    'epsilon_start': 1.0,
+    'evaluate': False,
+    'gamma': 0.99,
+    'grad_norm_clip': 10,
+    'group': 'qmix-sc2_gen_terran-saruman_test',
+    'hypernet_embed': 64,
+    'label': 'default_label',
+    'learner': 'nq_learner',
+    'learner_log_interval': 2000,
+    'load_step': 0,
+    'local_results_path': 'results',
+    'log_interval': 2000,
+    'lr': 0.001,
+    'mac': 'n_mac',
+    'mixer': 'qmix',
+    'mixing_embed_dim': 32,
+    'name': 'qmix',
+    'obs_agent_id': True,
+    'obs_last_action': True,
+    'optim_alpha': 0.99,
+    'optim_eps': 1e-05,
+    'optimizer': 'adam',
+    'project': 'smac_v2_hyperparams',
+    'q_lambda': False,
+    'repeat_id': 1,
+    'rnn_hidden_dim': 64,
+    'run': 'default',
+    'runner': 'parallel',
+    'runner_log_interval': 2000,
+    'save_model': True,
+    'save_model_interval': 2000000,
+    'save_replay': False,
+    'seed': 157174905,
+    't_max': 10050000,
+    'target_update_interval': 200,
+    'td_lambda': 0.3,
+    'test_greedy': True,
+    'test_interval': 10000,
+    'test_nepisode': 32,
+    'use_cuda': True,
+    'use_tensorboard': False,
+    'use_wandb': False}
+
+Mixer Size: 
+165.985K
+[INFO 13:05:46] my_main Beginning training for 10050000 timesteps
+Process Process-2:
+Process Process-3:
+Process Process-1:
+Process Process-4:
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/opt/conda/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/opt/conda/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/opt/conda/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/source/src/runners/parallel_runner.py", line 248, in env_worker
+    env.reset()
+  File "/source/src/runners/parallel_runner.py", line 248, in env_worker
+    env.reset()
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/wrapper.py", line 32, in reset
+    return self.env.reset(reset_config)
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/wrapper.py", line 32, in reset
+    return self.env.reset(reset_config)
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/starcraft2.py", line 500, in reset
+    self._launch()
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/starcraft2.py", line 500, in reset
+    self._launch()
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/starcraft2.py", line 409, in _launch
+    self._run_config = run_configs.get(version=self.game_version)
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/starcraft2.py", line 409, in _launch
+    self._run_config = run_configs.get(version=self.game_version)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/__init__.py", line 40, in get
+    return max(configs.values(), key=lambda c: c.priority())(version=version)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/__init__.py", line 40, in get
+    return max(configs.values(), key=lambda c: c.priority())(version=version)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 179, in __init__
+    super(Linux, self).__init__(base_dir, "SC2_x64", version=version, env=env)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 179, in __init__
+    super(Linux, self).__init__(base_dir, "SC2_x64", version=version, env=env)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 61, in __init__
+    super(LocalBase, self).__init__(
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 61, in __init__
+    super(LocalBase, self).__init__(
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/lib.py", line 112, in __init__
+    self.version = self._get_version(version)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/lib.py", line 112, in __init__
+    self.version = self._get_version(version)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/lib.py", line 220, in _get_version
+    versions = self.get_versions(containing=game_version)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/lib.py", line 220, in _get_version
+    versions = self.get_versions(containing=game_version)
+Traceback (most recent call last):
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 94, in get_versions
+    for v in os.listdir(versions_dir)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 94, in get_versions
+    for v in os.listdir(versions_dir)
+FileNotFoundError: [Errno 2] No such file or directory: '/source/3rdparty/StarCraftII/Versions'
+FileNotFoundError: [Errno 2] No such file or directory: '/source/3rdparty/StarCraftII/Versions'
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/opt/conda/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/source/src/runners/parallel_runner.py", line 248, in env_worker
+    env.reset()
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/wrapper.py", line 32, in reset
+    return self.env.reset(reset_config)
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/starcraft2.py", line 500, in reset
+    self._launch()
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/starcraft2.py", line 409, in _launch
+    self._run_config = run_configs.get(version=self.game_version)
+  File "/opt/conda/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/__init__.py", line 40, in get
+    return max(configs.values(), key=lambda c: c.priority())(version=version)
+  File "/opt/conda/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 179, in __init__
+    super(Linux, self).__init__(base_dir, "SC2_x64", version=version, env=env)
+  File "/source/src/runners/parallel_runner.py", line 248, in env_worker
+    env.reset()
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 61, in __init__
+    super(LocalBase, self).__init__(
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/wrapper.py", line 32, in reset
+    return self.env.reset(reset_config)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/lib.py", line 112, in __init__
+    self.version = self._get_version(version)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/lib.py", line 220, in _get_version
+    versions = self.get_versions(containing=game_version)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 94, in get_versions
+    for v in os.listdir(versions_dir)
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/starcraft2.py", line 500, in reset
+    self._launch()
+  File "/home/benlis/.local/lib/python3.8/site-packages/smac/env/starcraft2/starcraft2.py", line 409, in _launch
+    self._run_config = run_configs.get(version=self.game_version)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/__init__.py", line 40, in get
+    return max(configs.values(), key=lambda c: c.priority())(version=version)
+FileNotFoundError: [Errno 2] No such file or directory: '/source/3rdparty/StarCraftII/Versions'
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 179, in __init__
+    super(Linux, self).__init__(base_dir, "SC2_x64", version=version, env=env)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 61, in __init__
+    super(LocalBase, self).__init__(
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/lib.py", line 112, in __init__
+    self.version = self._get_version(version)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/lib.py", line 220, in _get_version
+    versions = self.get_versions(containing=game_version)
+  File "/home/benlis/.local/lib/python3.8/site-packages/pysc2/run_configs/platforms.py", line 94, in get_versions
+    for v in os.listdir(versions_dir)
+FileNotFoundError: [Errno 2] No such file or directory: '/source/3rdparty/StarCraftII/Versions'

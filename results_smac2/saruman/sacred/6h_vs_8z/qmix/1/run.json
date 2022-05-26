@@ -1,0 +1,95 @@
+{
+  "artifacts": [],
+  "command": "my_main",
+  "experiment": {
+    "base_dir": "/source/src",
+    "dependencies": [
+      "munch==2.5.0",
+      "numpy==1.16.3",
+      "sacred==0.8.2",
+      "torch==1.1.0",
+      "wandb==0.12.14"
+    ],
+    "mainfile": "main.py",
+    "name": "pymarl",
+    "repositories": [
+      {
+        "commit": "5bcbf54811ec3f2562ffd47d99d201bfc8217c40",
+        "dirty": true,
+        "url": "git@github.com:benellis3/pymarl2.git"
+      },
+      {
+        "commit": "5bcbf54811ec3f2562ffd47d99d201bfc8217c40",
+        "dirty": true,
+        "url": "git@github.com:benellis3/pymarl2.git"
+      }
+    ],
+    "sources": [
+      [
+        "main.py",
+        "_sources/main_78da08088489c3572a5a51e4e4f2df4e.py"
+      ],
+      [
+        "utils/logging.py",
+        "_sources/logging_bbd5e57a493f521cc49efce26ee07e51.py"
+      ]
+    ]
+  },
+  "heartbeat": "2022-04-17T17:35:27.469257",
+  "host": {
+    "ENV": {},
+    "cpu": "Intel(R) Xeon(R) Silver 4214 CPU @ 2.20GHz",
+    "gpus": {
+      "driver_version": "510.54",
+      "gpus": [
+        {
+          "model": "NVIDIA GeForce RTX 2080 Ti",
+          "persistence_mode": false,
+          "total_memory": 11264
+        }
+      ]
+    },
+    "hostname": "790f47e85c7f",
+    "os": [
+      "Linux",
+      "Linux-5.4.0-107-generic-x86_64-with-debian-stretch-sid"
+    ],
+    "python_version": "3.6.8"
+  },
+  "meta": {
+    "command": "my_main",
+    "options": {
+      "--beat-interval": null,
+      "--capture": null,
+      "--comment": null,
+      "--debug": false,
+      "--enforce_clean": false,
+      "--file_storage": null,
+      "--force": false,
+      "--help": false,
+      "--loglevel": null,
+      "--mongo_db": null,
+      "--name": null,
+      "--pdb": false,
+      "--print-config": false,
+      "--priority": null,
+      "--queue": false,
+      "--s3": null,
+      "--sql": null,
+      "--tiny_db": null,
+      "--unobserved": false,
+      "COMMAND": null,
+      "UPDATE": [
+        "env_args.map_name=6h_vs_8z",
+        "group=qmix-6h_vs_8z-save-weights",
+        "save_model=True"
+      ],
+      "help": false,
+      "with": true
+    }
+  },
+  "resources": [],
+  "result": null,
+  "start_time": "2022-04-16T21:32:19.440675",
+  "status": "RUNNING"
+}
