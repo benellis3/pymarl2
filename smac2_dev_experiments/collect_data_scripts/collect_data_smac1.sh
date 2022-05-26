@@ -51,11 +51,22 @@ echo "ARGS:"  ${args[@]}
 echo "GPU LIST:" ${gpus[@]}
 echo "TIMES:" $times
 
+# Train
+#buffer_size=8192
+#npisodes=8192
+#
+## Evaluate
+#buffer_size=4096
+#npisodes=4096
+
+# test
+buffer_size=16
+nepiodes=16
 
 # run parallel
 count=0
 for map in "${maps[@]}"; do
-    for((i=0;i<times;i++)); do
+    for((seed=0;i<times;seed++)); do
         gpu=${gpus[$(($count % ${#gpus[@]}))]}  
         group="${config}-${map}-${tag}"
         ./run_docker.sh $gpu python3 src/main.py \
@@ -67,17 +78,17 @@ for map in "${maps[@]}"; do
           use_wandb=False \
           checkpoint_path="${weight_location["$map"]}" \
           evaluate=True \
-          buffer_size=8192 \
-          test_nepisode=8192 \
+          buffer_size=$buffer_size \
+          test_nepisode=$nepiodes \
           save_eval_buffer=True \
-          save_eval_buffer_path="smac2_dev_experiments/data/smac1" \
+          save_eval_buffer_path="smac2_dev_experiments/data/smac_1/" \
+          saving_eval_seed=seed \
           "${args[@]}" &
 
         count=$(($count + 1))     
         if [ $(($count % $threads)) -eq 0 ]; then
             wait
         fi
-        # for random seeds
         sleep 5
     done
 done

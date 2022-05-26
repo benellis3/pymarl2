@@ -13,6 +13,7 @@ def env_fn(env, **kwargs) -> MultiAgentEnv:
 
 REGISTRY = {}
 REGISTRY["sc2"] = partial(env_fn, env=StarCraft2Env)
+REGISTRY["sc2wrapped"] = partial(env_fn, env=StarCraftCapabilityEnvWrapper)
 REGISTRY["one_step_matrix_game"] = partial(env_fn, env=OneStepMatrixGame)
 REGISTRY["stag_hunt"] = partial(env_fn, env=StagHunt)
 

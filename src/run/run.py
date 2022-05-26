@@ -77,7 +77,7 @@ def run(_run, _config, _log):
 
 
 def evaluate_sequential(args, buffer, runner, learner):
-    print("Starting evaluation")
+    print("\nStarting evaluation\n")
     from tqdm import tqdm
 
     win_rate = []
@@ -90,8 +90,11 @@ def evaluate_sequential(args, buffer, runner, learner):
     print(f"END WIN RATE  = {sum(win_rate)/len(win_rate)}")
 
     if args.save_eval_buffer:
-        path = os.path.join(args.save_eval_buffer_path, args.env_args["map_name"],
-                            time.strftime("%Y-%m-%d_%H-%M-%S"))
+
+        save_suffix = args.saving_eval_type if args.saving_eval_type != '' else time.strftime("%Y-%m-%d_%H-%M-%S")
+        path = os.path.join(args.save_eval_buffer_path,
+                            f'{args.env_args["capability_config"]["n_units"]}_{args.env_args["map_name"][2:]}',
+                            str(args.saving_eval_seed), save_suffix)
         print(f"saving evaluation buffer to {path}")
         os.makedirs(path, exist_ok=True)
         # Save buffer.

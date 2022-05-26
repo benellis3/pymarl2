@@ -24,7 +24,7 @@ NV_GPU="$GPU" ${cmd} run -d \
     -e LC_ALL=C.UTF-8 \
     -e LANG=C.UTF-8 \
     -v "$(pwd)":/home/ms21sm/pymarl2 \
-    pymarl:ms21sm_pymarl2 \
+    pymarl:ms21sm_smac_v2 \
     ${@:2}
 
 # E.g. commands.

@@ -1,6 +1,7 @@
 #!/bin/bash
+set -x
 HASH=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 4 | head -n 1)
-WANDB_API_KEY=$(cat $WANDB_API_KEY_FILE)
+#WANDB_API_KEY=$(cat $WANDB_API_KEY_FILE)
 GPU=$1
 name=${USER}_pymarl_GPU_${GPU}_${HASH}
 
@@ -13,11 +14,10 @@ else
   cmd=docker
 fi
 
-NV_GPU="$GPU" ${cmd} run \
+NV_GPU="$GPU" ${cmd} run -d \
     -e WANDB_API_KEY=$WANDB_API_KEY \
     --name $name \
     --user $(id -u) \
-    --memory 100g \
      -v "$(pwd)":/home/ms21sm/pymarl2 \
-    pymarl:ms21sm_pymarl2 \
+    pymarl:ms21sm_smac_v2 \
     ${@:2}

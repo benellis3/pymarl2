@@ -14,9 +14,11 @@ EPISODE_TO_OBS_SIZE_RATIO = 3.2  # Safe margin. Magic number.
 
 class Loader:
 
-    def __init__(self, map_name, dataset_type, batch_size=None, smac_version=1):
+    def __init__(self, map_name, dataset_type, batch_size=None, smac_version=1, seed=0):
         self.map_name = map_name
-        self.dataset_dir = pathlib.Path(__file__).parent.resolve() / f"smac{smac_version}" / map_name / dataset_type
+        self.dataset_dir = (
+                pathlib.Path(__file__).parent.resolve() / f"smac_{smac_version}" / map_name / str(seed) / dataset_type
+        )   # type: pathlib.Path
         self.dataset_args = torch.load(self.dataset_dir / "dataset_args.pkl")
 
         feature_names = torch.load(self.dataset_dir / "feature_names.pkl")
@@ -44,8 +46,8 @@ class Loader:
         device_memory = torch.cuda.get_device_properties(0).total_memory
         obs = self.episode_buffer["obs"]
         size_of_one_obs = sys.getsizeof(obs.storage()) / len(self)
-        size_of_one_episode = size_of_one_obs * EPISODE_TO_OBS_SIZE_RATIO
-        max_batch_size = device_memory // size_of_one_episode
+        size_of_one_sample = size_of_one_obs * EPISODE_TO_OBS_SIZE_RATIO
+        max_batch_size = device_memory // size_of_one_sample
         return max_batch_size
 
     def guess_largest_batch_size(self):

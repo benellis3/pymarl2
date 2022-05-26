@@ -14,7 +14,7 @@ from experiments.obs_masking_effects.default_params import parse_arguments
 
 def get_save_dir_prefix(config):
     save_dir = pathlib.Path(__file__).parent.resolve()
-    save_dir = save_dir / "best_results" / config.map_name
+    save_dir = save_dir / "best_results" / f"smac_config.smac_version" / f"{config.unit_map_name}" / str(config.seed)
     return save_dir
 
 
@@ -31,9 +31,17 @@ config = wandb.config  # Updated from wandb server if running a sweep.
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device, config)
 
+if int(config.smac_version) == 2:
+    config.unit_map_name = f"{config.nb_units}_{config.map_name}"
+else:
+    config.unit_map_name = config.map_name
+wandb.config.update({"unit_map_name": config.unit_map_name})
+
 # Training artifacts.
-training_loader = Loader(map_name=config.map_name, dataset_type='train', batch_size=config.batch_size)
-evaluation_loader = Loader(map_name=config.map_name, dataset_type='evaluate')
+training_loader = Loader(map_name=config.unit_map_name, dataset_type='train', batch_size=config.batch_size,
+                         smac_version=config.smac_version, seed=config.seed)
+evaluation_loader = Loader(map_name=config.unit_map_name, dataset_type='evaluate',
+                           smac_version=config.smac_version, seed=config.seed)
 
 model = NQmixNet(training_loader, device)
 target_model = NQmixNet(training_loader, device, is_target=True)

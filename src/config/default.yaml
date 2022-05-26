@@ -31,6 +31,8 @@ save_replay: False # Saving the replay of the model loaded from checkpoint_path
 save_eval_buffer: False # Save the episodes used for evaluation.
 save_eval_buffer_path: "" # Path to save the buffer of save_eval_buffer.
                           # E.g. save_eval_buffer_path=smac2_dev_experiments/observation_prediction/data
+saving_eval_type: ""  # train, evaluate, otherwise timestamp will be used.
+saving_eval_seed: 0
 local_results_path: "results" # Path for local results
 
 # --- RL hyperparameters ---

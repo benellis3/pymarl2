@@ -32,11 +32,16 @@ if [ ! -d $MAP_DIR ]; then
         mkdir -p $MAP_DIR
 fi
 
+if [ -d $MAP_DIR/"SMAC_Maps" ]; then
+        rm -r $MAP_DIR/"SMAC_Maps"
+fi
+
 cd ..
-wget https://github.com/oxwhirl/smac/releases/download/v0.1-beta1/SMAC_Maps.zip
-unzip SMAC_Maps.zip
-mv SMAC_Maps $MAP_DIR
-rm -rf SMAC_Maps.zip
+git clone git@github.com:benellis3/smac.git
+cd ./smac
+git checkout smac-v2-feature-names
+cd ..
+mv smac/smac/env/starcraft2/maps/SMAC_Maps $MAP_DIR
+rm -rf ./smac
 
 echo 'StarCraft II and SMAC are installed.'
-

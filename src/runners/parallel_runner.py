@@ -86,7 +86,7 @@ class ParallelRunner:
         self.env_steps_this_run = 0
 
     def get_feature_names(self):
-        self.parent_conns[0].send(("build_feature_names", None))
+        self.parent_conns[0].send(("get_obs_feature_names", None))
         obs_feature_names = self.parent_conns[0].recv()
         self.parent_conns[0].send(("get_state_feature_names", None))
         state_feature_names = self.parent_conns[0].recv()
@@ -269,8 +269,8 @@ def env_worker(remote, env_fn):
             remote.send(env.get_env_info())
         elif cmd == "get_stats":
             remote.send(env.get_stats())
-        elif cmd == "build_feature_names":
-            remote.send(env.build_feature_names())
+        elif cmd == "get_obs_feature_names":
+            remote.send(env.get_obs_feature_names())
         elif cmd == "get_state_feature_names":
             remote.send(env.get_state_feature_names())
         else:
