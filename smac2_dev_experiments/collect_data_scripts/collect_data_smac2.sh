@@ -24,7 +24,7 @@ weight_location=(
 ["5_gen_protoss_seed_2"]="results_smac2/leo/models/qmix__2022-05-21_16-49-45"
 ["10_gen_protoss_seed_0"]="results_smac2/orion/models/qmix__2022-05-21_16-30-30"
 ["10_gen_protoss_seed_1"]="results_smac2/orion/models/qmix__2022-05-21_16-30-23"
-["10_gen_protoss_seed_2"]="results_smac2/orion/models/qmix__2022-05-21_16-30-23"
+["10_gen_protoss_seed_2"]="results_smac2/orion/models/special_weights"
 ["20_gen_protoss_seed_0"]="results_smac2/saruman/models/qmix__2022-05-21_19-50-39"
 ["20_gen_protoss_seed_1"]="results_smac2/saruman/models/qmix__2022-05-21_19-50-34"
 ["20_gen_protoss_seed_2"]="results_smac2/saruman/models/qmix__2022-05-21_19-50-31"
@@ -45,7 +45,7 @@ weight_location=(
 ["10_gen_zerg_seed_2"]="results_smac2/orion/models/qmix__2022-05-21_16-30-47"
 ["20_gen_zerg_seed_0"]="results_smac2/gandalf/models/qmix__2022-05-21_19-16-09"
 ["20_gen_zerg_seed_1"]="results_smac2/gandalf/models/qmix__2022-05-21_19-16-05"
-["20_gen_zerg_seed_2"]="results_smac2/gandalf/models/qmix__2022-05-21_19-16-05"
+["20_gen_zerg_seed_2"]="results_smac2/gandalf/models/special_weights"
 )
 
 threads=${4:-8} # 2
