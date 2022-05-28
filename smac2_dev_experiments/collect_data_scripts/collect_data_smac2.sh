@@ -48,10 +48,10 @@ weight_location=(
 ["20_gen_zerg_seed_2"]="results_smac2/gandalf/models/special_weights"
 )
 
-threads=${4:-8} # 2
-args=${5:-}    # ""
-gpus=${6:-0,1,2,3,4,5,6,7}    # 0,1
-times=${7:-3}   # 5 # corresponds to seeds.
+threads=${4:-8}
+args=${5:-}
+gpus=${6:-0,1,2,3,4,5,6,7}
+times=${7:-3}  # corresponds to seeds.
 
 maps=(${maps//,/ })
 units=(${units//,/ })

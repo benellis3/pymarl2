@@ -13,8 +13,8 @@ function onCtrlC () {
 
 config=$1  # qmix
 tag=$2  # train, evaluate, or debug.
-maps=${3:-sc2_gen_protoss}
-units=${8:-20}
+maps=${3:-sc2_gen_protoss,sc2_gen_terran,sc2_gen_zerg}
+units=${8:-5,10,20}
 
 # Edit this.
 declare -A weight_location
@@ -24,7 +24,7 @@ weight_location=(
 ["5_gen_protoss_seed_2"]="results_smac2/leo/models/qmix__2022-05-21_16-49-45"
 ["10_gen_protoss_seed_0"]="results_smac2/orion/models/qmix__2022-05-21_16-30-30"
 ["10_gen_protoss_seed_1"]="results_smac2/orion/models/qmix__2022-05-21_16-30-23"
-["10_gen_protoss_seed_2"]="results_smac2/orion/models/qmix__2022-05-21_16-30-23"
+["10_gen_protoss_seed_2"]="results_smac2/orion/models/special_weights"
 ["20_gen_protoss_seed_0"]="results_smac2/saruman/models/qmix__2022-05-21_19-50-39"
 ["20_gen_protoss_seed_1"]="results_smac2/saruman/models/qmix__2022-05-21_19-50-34"
 ["20_gen_protoss_seed_2"]="results_smac2/saruman/models/qmix__2022-05-21_19-50-31"
@@ -45,24 +45,25 @@ weight_location=(
 ["10_gen_zerg_seed_2"]="results_smac2/orion/models/qmix__2022-05-21_16-30-47"
 ["20_gen_zerg_seed_0"]="results_smac2/gandalf/models/qmix__2022-05-21_19-16-09"
 ["20_gen_zerg_seed_1"]="results_smac2/gandalf/models/qmix__2022-05-21_19-16-05"
-["20_gen_zerg_seed_2"]="results_smac2/gandalf/models/qmix__2022-05-21_19-16-05"
+["20_gen_zerg_seed_2"]="results_smac2/gandalf/models/special_weights"
 )
 
-threads=${4:-5} # 2
+threads=${4:-8} # 2
 args=${5:-}    # ""
 gpus=${6:-0,1,2,3,4,5,6,7}    # 0,1
-times=${7:-1}   # 5
+times=${7:-3}   # 5 # corresponds to seeds.
 
 maps=(${maps//,/ })
 units=(${units//,/ })
 gpus=(${gpus//,/ })
 args=(${args//,/ })
 
+
 declare -A buffer_size
 buffer_size=(
-["train"]=128
-["evaluate"]=64
-["debug"]=512
+["train"]=8192
+["evaluate"]=4096
+["debug"]=32
 )
 
 if [ ! $config ] || [ ! $tag ]; then
@@ -112,3 +113,4 @@ for map in "${maps[@]}"; do
     done
 done
 wait
+
