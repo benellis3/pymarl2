@@ -73,15 +73,14 @@ declare -A buffer_size
 buffer_size=(
 ["train"]=8192
 ["evaluate"]=4096
-["debug"]=8
+["debug"]=32
 )
 
 # run parallel
 count=0
 for map in "${maps[@]}"; do
     for((seed=0;seed<times;seed++)); do
-        gpu=${gpus[$(($count % ${#gpus[@]}))]}  
-        group="${config}-${map}-${tag}"
+        gpu=${gpus[$(($count % ${#gpus[@]}))]}
         ./run_docker.sh $gpu 1 python3 src/main.py \
           --config="$config" \
           --env-config=sc2 \
@@ -95,14 +94,13 @@ for map in "${maps[@]}"; do
           save_eval_buffer=True \
           save_eval_buffer_path="smac2_dev_experiments/data/smac_1/" \
           saving_eval_seed=$seed \
-          saving_eval_type=$tag
+          saving_eval_type=$tag \
           "${args[@]}" &
 
         count=$(($count + 1))     
         if [ $(($count % $threads)) -eq 0 ]; then
             wait
         fi
-        sleep 5
     done
 done
 wait
