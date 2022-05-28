@@ -101,6 +101,7 @@ for map in "${maps[@]}"; do
         if [ $(($count % $threads)) -eq 0 ]; then
             wait
         fi
+        sleep 5
     done
 done
 wait
