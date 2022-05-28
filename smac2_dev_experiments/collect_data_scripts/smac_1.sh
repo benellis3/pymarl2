@@ -47,7 +47,7 @@ weight_location=(
   ["MMM2_seed_2"]="results_smac1/models/qmix__2022-04-18_18-02-35"
 )
 
-threads=${4:-1}
+threads=${4:-8}
 args=${5:-}
 gpus=${6:-0,1,2,3,4,5,6,7}
 times=${7:-3}
@@ -82,7 +82,7 @@ for map in "${maps[@]}"; do
     for((seed=0;seed<times;seed++)); do
         gpu=${gpus[$(($count % ${#gpus[@]}))]}  
         group="${config}-${map}-${tag}"
-        ./run_docker.sh $gpu 1 -it python3 src/main.py \
+        ./run_docker.sh $gpu 1 -d python3 src/main.py \
           --config="$config" \
           --env-config=sc2 \
           with \
