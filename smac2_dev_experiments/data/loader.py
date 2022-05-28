@@ -17,7 +17,7 @@ class Loader:
         self.job_type = dataset_type
         self.dataset_dir = (
                 pathlib.Path(__file__).parent.resolve() / f"smac_{smac_version}" / map_name / str(seed) / dataset_type
-        )   # type: pathlib.Path
+        )  # type: pathlib.Path
         self.dataset_args = torch.load(self.dataset_dir / "dataset_args.pkl")
 
         feature_names = torch.load(self.dataset_dir / "feature_names.pkl")
@@ -38,13 +38,14 @@ class Loader:
             size_of_sample += sys.getsizeof(self.episode_buffer.data.transition_data[k].storage())
         for k, v in self.episode_buffer.data.episode_data.items():
             size_of_sample += sys.getsizeof(self.episode_buffer.data.episode_data[k].storage())
+        size_of_sample += 6 * sys.getsizeof(self.episode_buffer["reward"].storage())  # Used during evaluation.
         return size_of_sample / len(self)
 
     def get_max_batch_size(self):
-        device_memory = torch.cuda.get_device_properties(0).total_memory * 0.8  # Leave some buffer.
+        device_memory = torch.cuda.get_device_properties(0).total_memory * 0.4  # Leave some buffer.
         size_of_one_sample = self.get_size_of_one_sample()
         max_batch_size = device_memory // size_of_one_sample
-        scale = 2 if self.job_type == "train" else 1    # Training consumes memory for autograd and so on ...
+        scale = 2 if self.job_type == "train" else 1  # Training consumes memory for autograd and so on ...
         return max_batch_size / scale
 
     def closest_to_batch_size(self, batch_size):
@@ -67,17 +68,17 @@ class Loader:
     def sample_batches(self, device):
         for _ in range(self.nb_batch):
             episode_sample = self.episode_buffer.sample(self.batch_size)  # type: EpisodeBatch
-            episode_sample.to(device)
             max_ep_t = episode_sample.max_t_filled()
             episode_sample = episode_sample[:, :max_ep_t]
+            episode_sample.to(device)
             yield episode_sample
 
     def get_validation_batches(self, device, max_seq_length=None):
         for i in range(self.nb_batch):
-            episode_sample = self.episode_buffer[i*self.batch_size: (i+1)*self.batch_size]
-            episode_sample.to(device)
+            episode_sample = self.episode_buffer[i * self.batch_size: (i + 1) * self.batch_size]
             if max_seq_length is not None:
                 episode_sample = episode_sample[:, :max_seq_length]
+            episode_sample.to(device)
             yield episode_sample
 
 
@@ -130,7 +131,9 @@ features_to_mask_map = dict(
     enemy_shield=Mask(["enemy_shield"]),
     enemy_health_and_shield=Mask(["enemy_health", "enemy_shield"]),
     enemy_distance=Mask(["enemy_distance", "enemy_relative", "enemy_shootable"]),
-    own_health=Mask(["own_health"], state_features=["ally_heath"])
+    own_health=Mask(["own_health"], state_features=["ally_heath"]),
+    own_fov=Mask(["fov"]),
+    own_position=Mask(["own_pos"], state_features=["ally_relative"]),
 )
 
 

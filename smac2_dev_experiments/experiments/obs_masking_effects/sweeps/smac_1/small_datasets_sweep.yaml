@@ -1,4 +1,4 @@
-name: small_datasets
+name: masking-small-datasets
 method: grid
 metric:
   goal: minimize
@@ -7,6 +7,9 @@ parameters:
   group:
     values:
       - run_pymarl2_smac1
+  smac_version:
+    values:
+      - 1
   mask_name:
     values:
       - nothing
@@ -30,6 +33,12 @@ parameters:
       - 5m_vs_6m
       - 6h_vs_8z
       - 8m_vs_9m
+      - 3s5z_vs_3s6z
+  seed:
+    values:
+      - 0
+      - 1
+      - 2
 program: smac2_dev_experiments/experiments/obs_masking_effects/main.py
-project: SMAC2-masking-runs
+project: SMAC-feature-quality
 entity: oxwhirl

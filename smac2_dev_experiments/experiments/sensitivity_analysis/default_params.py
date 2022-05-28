@@ -8,7 +8,10 @@ params = dict(
     entity="oxwhirl",
     group="dev-pymarl2-smac1-sensitivity",
     launch_time=launch_time,
+    smac_version=1,
     map_name="27m_vs_30m",
+    nb_units=20,
+    seed=0,
 )
 
 

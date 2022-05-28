@@ -142,6 +142,7 @@ def evaluate_mask(eval_preprocess, epoch, model, target_model, loader, mask, cri
 
     loss = torch.zeros(matrix_size, device=device)
     error = torch.zeros(matrix_size, device=device)
+    q_deviation = torch.zeros(matrix_size, device=device)
 
     for episode_sample in loader.get_validation_batches(device, max_seq_length=max_t_filled + 1):
         target_q_vals, _ = target_model.forward(episode_sample)
@@ -159,6 +160,7 @@ def evaluate_mask(eval_preprocess, epoch, model, target_model, loader, mask, cri
         # Matrix metrics
         loss += criterion(q_vals, target_q_vals)
         error += torch.abs(q_vals - target_q_vals)
+        q_deviation += (error / torch.abs(target_q_vals)).nan_to_num()
 
     # Aggregate.
     range_q = max_q - min_q
@@ -169,10 +171,18 @@ def evaluate_mask(eval_preprocess, epoch, model, target_model, loader, mask, cri
     mean_loss = loss.sum() / total_steps
     rmse = torch.sqrt(mean_loss)
     step_rmse = torch.sqrt(loss.squeeze(-1).sum(BATCH_DIM) / episodes_still_running)
+
+    rmse_by_q = rmse / mean_q * 100
+    step_rmse_by_q = step_rmse / step_mean_q * 100
+
     mean_error = error.sum() / total_steps
     step_mean_error = error.squeeze(-1).sum(BATCH_DIM) / episodes_still_running
-    mean_deviation = mean_error / range_target_q * 100
-    step_mean_deviation = step_mean_error / step_range_target_q * 100
+
+    mean_q_deviation = q_deviation.sum() / total_steps * 100
+    step_mean_q_deviation = q_deviation.squeeze(-1).sum(BATCH_DIM) / episodes_still_running * 100
+
+    mean_range_deviation = mean_error / range_target_q * 100
+    step_mean_range_deviation = step_mean_error / step_range_target_q * 100
 
     return {
         "max_q": max_q.item(),
@@ -187,10 +197,14 @@ def evaluate_mask(eval_preprocess, epoch, model, target_model, loader, mask, cri
         "mean_loss:": mean_loss.item(),
         "rmse": rmse.item(),
         "step_rmse": step_rmse.cpu().numpy(),
+        "rmse_by_q": rmse_by_q.item(),
+        "step_rmse_by_q": step_rmse_by_q.cpu().numpy(),
         "mean_error": mean_error.item(),
         "step_mean_error": step_mean_error.cpu().numpy(),
-        "mean_deviation": mean_deviation.item(),
-        "step_mean_deviation": step_mean_deviation.cpu().numpy(),
+        "mean_q_deviation": mean_q_deviation.item(),
+        "step_mean_q_deviation": step_mean_q_deviation.cpu().numpy(),
+        "mean_range_deviation": mean_range_deviation.item(),
+        "step_mean_range_deviation": step_mean_range_deviation.cpu().numpy(),
         "epoch": epoch,
         "mask_name": mask_name,
         "map_name": loader.map_name,
@@ -213,12 +227,19 @@ def evaluate_single_mask(eval_preprocess, epoch, model, target_model, loader, ma
                                                                       "episodes_still_running"),
             "validation/rmse": metrics["rmse"],
             "validation/step/step_rmse": plot_line_wandb(metrics["step_rmse"], "rmse", "step_rmse"),
+            "validation/rmse_by_q": metrics["rmse_by_q"],
+            "validation/step/step_rmse_by_q": plot_line_wandb(metrics["step_rmse_by_q"], "rmse_by_q",
+                                                              "step_rmse_by_q"),
             "validation/mean_error": metrics["mean_error"],
             "validation/step/step_mean_error": plot_line_wandb(metrics["step_mean_error"], "mean_error",
                                                                "step_mean_error"),
-            "validation/mean_deviation": metrics["mean_deviation"],
-            "validation/step/step_mean_deviation": plot_line_wandb(metrics["step_mean_deviation"], "mean_deviation",
-                                                                   "step_mean_deviation"),
+            "validation/mean_q_deviation": metrics["mean_q_deviation"],
+            "validation/step/step_mean_q_deviation": plot_line_wandb(metrics["step_mean_q_deviation"],
+                                                                     "mean_q_deviation", "step_mean_q_deviation"),
+            "validation/mean_range_deviation": metrics["mean_range_deviation"],
+            "validation/step/step_mean_range_deviation": plot_line_wandb(metrics["step_mean_range_deviation"],
+                                                                         "mean_range_deviation",
+                                                                         "step_mean_range_deviation"),
             "epoch": epoch,
         }, step=epoch)
         return metrics
@@ -236,14 +257,20 @@ def log_best_results(metrics):
         "validation/best/q/step_range_q": plot_line_wandb(metrics["step_range_q"], "range_q", "step_range_q"),
         "validation/best/step/episodes_still_running": plot_line_wandb(metrics["episodes_still_running"], "episodes",
                                                                        "episodes_still_running"),
-
         "validation/best/rmse": metrics["rmse"],
         "validation/best/step/step_rmse": plot_line_wandb(metrics["step_rmse"], "rmse", "step_rmse"),
+        "validation/best/rmse_by_q": metrics["rmse_by_q"],
+        "validation/best/step/step_rmse_by_q": plot_line_wandb(metrics["step_rmse_by_q"], "rmse_by_q",
+                                                               "step_rmse_by_q"),
         "validation/best/mean_error": metrics["mean_error"],
         "validation/best/step/step_mean_error": plot_line_wandb(metrics["step_mean_error"], "mean_error",
                                                                 "step_mean_error"),
-        "validation/best/mean_deviation": metrics["mean_deviation"],
-        "validation/best/step/step_mean_deviation": plot_line_wandb(metrics["step_mean_deviation"], "mean_deviation",
-                                                                    "step_mean_deviation"),
+        "validation/best/mean_q_deviation": metrics["mean_q_deviation"],
+        "validation/best/step/step_mean_q_deviation": plot_line_wandb(metrics["step_mean_q_deviation"],
+                                                                      "mean_q_deviation", "step_mean_q_deviation"),
+        "validation/best/mean_range_deviation": metrics["mean_range_deviation"],
+        "validation/best/step/step_mean_range_deviation": plot_line_wandb(metrics["step_mean_range_deviation"],
+                                                                          "mean_range_deviation",
+                                                                          "step_mean_range_deviation"),
         "validation/best/epoch": metrics["epoch"],
     })
