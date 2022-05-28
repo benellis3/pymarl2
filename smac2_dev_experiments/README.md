@@ -20,11 +20,11 @@ Data consists of:
 - The config associated to the training the generated the episodes.
 - The feature names associated to the training.
 
-Data collection is done in `./smac2_dev_experiments/collect_data_scripts/`
-1. Check that maps are mapped to model weights in `collect_data_smac2.sh`. 
-Otherwise get the mapping by running  `results_smac2/build_map_to_model_table.py`
+Data collection is done in `./smac${version}_dev_experiments/collect_data_scripts/`
+1. Check that maps are mapped to model weights in `collect_data_smac${version}.sh`. 
+Otherwise get the mapping by running  `results_smac${version}/build_map_to_model_table.py`
 2. Edit (specify maps, units) and run
-`./smac2_dev_experiments/collect_data_scripts/collect_data_smac2.sh qmix debug`.
+`./smac${version}_dev_experiments/collect_data_scripts/collect_data_smac2.sh qmix debug`.
 (modify `debug` to `train` or `evaluate`)
 
 Data will be saved in `pymarl2/smac2_dev_experiments/data/smac_${version}/map_name/${seed}/${task_name}`.

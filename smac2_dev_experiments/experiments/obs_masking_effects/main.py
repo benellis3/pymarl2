@@ -14,28 +14,24 @@ from experiments.obs_masking_effects.default_params import parse_arguments
 
 def get_save_dir_prefix(config):
     save_dir = pathlib.Path(__file__).parent.resolve()
-    save_dir = save_dir / "best_results" / f"{config.smac_version}" / f"{config.unit_map_name}" / str(config.seed)
+    save_dir = save_dir / "best_results" / f"smac_{config.smac_version}" / f"{config.unit_map_name}" / str(config.seed)
     return save_dir
 
 
 # Set experiment parameter.
 params = parse_arguments()
+params.unit_map_name = f"{params.nb_units}_{params.map_name}" if int(params.smac_version) == 2 else params.map_name
+
 # Wandb updates the config if the script is running in a sweeping agent.
 run = wandb.init(project=params.project,
                  entity=params.entity,
                  config=vars(params),
                  group=params.group,
-                 name=f"{params.mask_name}_{params.map_name}_{params.launch_time}",
+                 name=f"{params.mask_name}_{params.unit_map_name}",
                  mode="online")
 config = wandb.config  # Updated from wandb server if running a sweep.
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device, config)
-
-if int(config.smac_version) == 2:
-    config.unit_map_name = f"{config.nb_units}_{config.map_name}"
-else:
-    config.unit_map_name = config.map_name
-wandb.config.update({"unit_map_name": config.unit_map_name})
 
 # Training artifacts.
 training_loader = Loader(map_name=config.unit_map_name, dataset_type='train', batch_size=config.batch_size,

@@ -92,9 +92,13 @@ def evaluate_sequential(args, buffer, runner, learner):
     if args.save_eval_buffer:
 
         save_suffix = args.saving_eval_type if args.saving_eval_type != '' else time.strftime("%Y-%m-%d_%H-%M-%S")
-        path = os.path.join(args.save_eval_buffer_path,
-                            f'{args.env_args["capability_config"]["n_units"]}_{args.env_args["map_name"][2:]}',
-                            str(args.saving_eval_seed), save_suffix)
+        if "capability_config" in args.env_args:
+            # SMAC 1:
+            map_name = args.env_args["map_name"]
+        else:
+            # SMAC 2:
+            map_name = f'{args.env_args["capability_config"]["n_units"]}_{args.env_args["map_name"][2:]}'
+        path = os.path.join(args.save_eval_buffer_path, map_name, str(args.saving_eval_seed), save_suffix)
         print(f"saving evaluation buffer to {path}")
         os.makedirs(path, exist_ok=True)
         # Save buffer.

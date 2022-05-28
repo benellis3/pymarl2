@@ -47,7 +47,7 @@ weight_location=(
   ["MMM2_seed_2"]="results_smac1/models/qmix__2022-04-18_18-02-35"
 )
 
-threads=${4:-8}
+threads=${4:-1}
 args=${5:-}
 gpus=${6:-0,1,2,3,4,5,6,7}
 times=${7:-3}
@@ -58,7 +58,7 @@ args=(${args//,/ })
 
 if [ ! $config ] || [ ! $tag ]; then
     echo "Please enter the correct command."
-    echo "bash run.sh config_name map_name_list (experinments_threads_num arg_list gpu_list experinments_num)"
+    echo "./smac_1 qmix (debug|train|evalute)"
     exit 1
 fi
 
@@ -82,7 +82,7 @@ for map in "${maps[@]}"; do
     for((seed=0;seed<times;seed++)); do
         gpu=${gpus[$(($count % ${#gpus[@]}))]}  
         group="${config}-${map}-${tag}"
-        ./run_docker.sh $gpu python3 src/main.py \
+        ./run_docker.sh $gpu 1 -it python3 src/main.py \
           --config="$config" \
           --env-config=sc2 \
           with \
@@ -90,11 +90,12 @@ for map in "${maps[@]}"; do
           use_wandb=False \
           checkpoint_path="${weight_location["${map}_seed_${seed}"]}" \
           evaluate=True \
-          buffer_size=$buffer_size \
-          test_nepisode=$buffer_size \
+          buffer_size=${buffer_size["${tag}"]} \
+          test_nepisode=${buffer_size["${tag}"]} \
           save_eval_buffer=True \
           save_eval_buffer_path="smac2_dev_experiments/data/smac_1/" \
-          saving_eval_seed=seed \
+          saving_eval_seed=$seed \
+          saving_eval_type=$tag
           "${args[@]}" &
 
         count=$(($count + 1))     

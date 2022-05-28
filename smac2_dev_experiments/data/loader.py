@@ -9,13 +9,12 @@ EPISODE_STEP_DIM = 1
 AGENT_DIM = 2
 FEATURE_DIM = -1
 
-EPISODE_TO_OBS_SIZE_RATIO = 3.2  # Safe margin. Magic number.
-
 
 class Loader:
 
     def __init__(self, map_name, dataset_type, batch_size=None, smac_version=1, seed=0):
         self.map_name = map_name
+        self.job_type = dataset_type
         self.dataset_dir = (
                 pathlib.Path(__file__).parent.resolve() / f"smac_{smac_version}" / map_name / str(seed) / dataset_type
         )   # type: pathlib.Path
@@ -33,22 +32,29 @@ class Loader:
     def __len__(self):
         return self.episode_buffer.episodes_in_buffer
 
+    def get_size_of_one_sample(self):
+        size_of_sample = 0
+        for k, v in self.episode_buffer.data.transition_data.items():
+            size_of_sample += sys.getsizeof(self.episode_buffer.data.transition_data[k].storage())
+        for k, v in self.episode_buffer.data.episode_data.items():
+            size_of_sample += sys.getsizeof(self.episode_buffer.data.episode_data[k].storage())
+        return size_of_sample / len(self)
+
+    def get_max_batch_size(self):
+        device_memory = torch.cuda.get_device_properties(0).total_memory * 0.8  # Leave some buffer.
+        size_of_one_sample = self.get_size_of_one_sample()
+        max_batch_size = device_memory // size_of_one_sample
+        scale = 2 if self.job_type == "train" else 1    # Training consumes memory for autograd and so on ...
+        return max_batch_size / scale
+
     def closest_to_batch_size(self, batch_size):
-        max_size = self.max_batch_size / 2  # Training consumes memory for autograd and so on ...
+        max_size = self.max_batch_size
         if batch_size <= max_size:
             return batch_size
         else:
             while batch_size > max_size:
                 batch_size //= 2
             return batch_size
-
-    def get_max_batch_size(self):
-        device_memory = torch.cuda.get_device_properties(0).total_memory
-        obs = self.episode_buffer["obs"]
-        size_of_one_obs = sys.getsizeof(obs.storage()) / len(self)
-        size_of_one_sample = size_of_one_obs * EPISODE_TO_OBS_SIZE_RATIO
-        max_batch_size = device_memory // size_of_one_sample
-        return max_batch_size
 
     def guess_largest_batch_size(self):
         if self.max_batch_size >= len(self):
@@ -102,25 +108,6 @@ class Mask:
                             sample[:, :, :, i] = 0
                         break
 
-    @staticmethod
-    def mask_(feature_name, mask_substrings, sample, exception, is_state):
-        i, feature = feature_name
-        for mask_substring in mask_substrings:
-            if mask_substring in feature:
-                if exception is None or exception not in feature:
-                    if is_state:
-                        sample[:, :, i] = 0
-                    else:
-                        sample[:, :, :, i] = 0
-                    return
-
-    @staticmethod
-    def mask_feature_v2(mask_substrings, exception, feature_names, sample, is_state):
-        if len(mask_substrings) == 0:
-            return
-
-        map(lambda feature_name: Mask.mask_(feature_name, mask_substrings, sample, exception, is_state), feature_names)
-
     def apply(self, episode_sample, state_feature_names, obs_feature_names):
         self.mask_feature(self.state_features, self.exception, state_feature_names, episode_sample["state"],
                           is_state=True)
@@ -147,18 +134,5 @@ features_to_mask_map = dict(
 )
 
 
-class RandomMask:
-    def __init__(self):
-        self.masks = list(features_to_mask_map.values())
-        self.nb_masks = len(self.masks)
-
-    def apply(self, episode_sample, state_feature_names, obs_feature_names):
-        mask_index = torch.randint(0, len(self.masks), (1,)).item()
-        self.masks[mask_index].apply(episode_sample, state_feature_names, obs_feature_names)
-
-
 def build_mask(mask_name):
-    if mask_name == "random":
-        return RandomMask()
-    else:
-        return features_to_mask_map[mask_name]
+    return features_to_mask_map[mask_name]

@@ -2,8 +2,9 @@ FROM pytorch/pytorch:1.11.0-cuda11.3-cudnn8-runtime
 
 RUN apt-get -y update
 RUN apt-get -y install git
+ARG SMAC_VERSION
 ADD install_dependencies.sh /source/
-RUN bash -c /source/install_dependencies.sh
+RUN bash -c "/source/install_dependencies.sh ${SMAC_VERSION}"
 
 RUN pip install pymongo
 
