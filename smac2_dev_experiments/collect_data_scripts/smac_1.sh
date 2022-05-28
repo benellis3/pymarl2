@@ -82,7 +82,7 @@ for map in "${maps[@]}"; do
     for((seed=0;seed<times;seed++)); do
         gpu=${gpus[$(($count % ${#gpus[@]}))]}  
         group="${config}-${map}-${tag}"
-        ./run_docker.sh $gpu 1 -d python3 src/main.py \
+        ./run_docker.sh $gpu 1 python3 src/main.py \
           --config="$config" \
           --env-config=sc2 \
           with \
@@ -102,7 +102,7 @@ for map in "${maps[@]}"; do
         if [ $(($count % $threads)) -eq 0 ]; then
             wait
         fi
-        sleep 1
+        sleep 5
     done
 done
 wait

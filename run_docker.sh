@@ -15,12 +15,12 @@ else
   cmd=docker
 fi
 
-NV_GPU="$GPU" ${cmd} run "${3}" \
+NV_GPU="$GPU" ${cmd} run \
     -e WANDB_API_KEY=$WANDB_API_KEY \
     --name $name \
     --user $(id -u) \
      -v "$(pwd)":/home/ms21sm/pymarl2 \
     pymarl:ms21sm_smac_v${SMAC_VERSION} \
-    ${@:4}
+    ${@:3}
 
 # Usage ./run_docker <gpu> <smac_version> <docker-run-flag> <command>
