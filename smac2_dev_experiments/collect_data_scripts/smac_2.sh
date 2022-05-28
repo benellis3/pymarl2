@@ -33,7 +33,7 @@ weight_location=(
 ["5_gen_terran_seed_2"]="results_smac2/leo/models/qmix__2022-05-21_16-49-57"
 ["10_gen_terran_seed_0"]="results_smac2/orion/models/qmix__2022-05-21_16-30-41"
 ["10_gen_terran_seed_1"]="results_smac2/orion/models/qmix__2022-05-21_16-30-36"
-["10_gen_terran_seed_2"]="results_smac2/orion/models/qmix__2022-05-21_16-30-30"
+["10_gen_terran_seed_2"]="results_smac2/orion/models/qmix__2022-05-21_16-30-36" # This one is wrong.
 ["20_gen_terran_seed_0"]="results_smac2/gandalf/models/qmix__2022-05-21_19-16-20"
 ["20_gen_terran_seed_1"]="results_smac2/gandalf/models/qmix__2022-05-21_19-16-18"
 ["20_gen_terran_seed_2"]="results_smac2/saruman/models/qmix__2022-05-21_19-50-49"
@@ -59,16 +59,9 @@ gpus=(${gpus//,/ })
 args=(${args//,/ })
 
 
-declare -A buffer_size
-buffer_size=(
-["train"]=8192
-["evaluate"]=4096
-["debug"]=32
-)
-
 if [ ! $config ] || [ ! $tag ]; then
     echo "Please enter the correct command."
-    echo "bash run.sh config_name map_name_list (experinments_threads_num arg_list gpu_list experinments_num)"
+    echo "./smac_1 qmix (debug|train|evalute)"
     exit 1
 fi
 
@@ -78,8 +71,13 @@ echo "THREADS:" $threads
 echo "ARGS:"  ${args[@]}
 echo "GPU LIST:" ${gpus[@]}
 echo "TIMES:" $times
-echo "TDLAMBDAS:" ${td_lambdas[@]}
-echo "EPSANNEALS:" ${eps_anneals[@]}
+
+declare -A buffer_size
+buffer_size=(
+["train"]=8192
+["evaluate"]=4096
+["debug"]=8
+)
 
 # run parallel
 count=0
@@ -87,7 +85,7 @@ for map in "${maps[@]}"; do
     for unit in "${units[@]}"; do
         for((seed=0;seed<times;seed++)); do
             gpu=${gpus[$(($count % ${#gpus[@]}))]}
-            ./run_docker.sh $gpu 2 -d python3 src/main.py \
+            ./run_docker.sh $gpu 2 python3 src/main.py \
             --config="$config" \
             --env-config="$map" \
             with \
@@ -101,7 +99,7 @@ for map in "${maps[@]}"; do
             save_eval_buffer=True \
             save_eval_buffer_path="smac2_dev_experiments/data/smac_2" \
             saving_eval_seed=$seed \
-            saving_eval_type=$tag
+            saving_eval_type=$tag \
             "${args[@]}" &
 
             count=$(($count + 1))

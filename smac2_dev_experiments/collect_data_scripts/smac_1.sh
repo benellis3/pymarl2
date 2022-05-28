@@ -50,7 +50,7 @@ weight_location=(
 threads=${4:-8}
 args=${5:-}
 gpus=${6:-0,1,2,3,4,5,6,7}
-times=${7:-3}
+times=${7:-3} # corresponds to seeds.
 
 maps=(${maps//,/ })
 gpus=(${gpus//,/ })
@@ -73,7 +73,7 @@ declare -A buffer_size
 buffer_size=(
 ["train"]=8192
 ["evaluate"]=4096
-["debug"]=32
+["debug"]=8
 )
 
 # run parallel
