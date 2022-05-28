@@ -92,7 +92,7 @@ def evaluate_sequential(args, buffer, runner, learner):
     if args.save_eval_buffer:
 
         save_suffix = args.saving_eval_type if args.saving_eval_type != '' else time.strftime("%Y-%m-%d_%H-%M-%S")
-        if "capability_config" in args.env_args:
+        if not ("capability_config" in args.env_args):
             # SMAC 1:
             map_name = args.env_args["map_name"]
         else:

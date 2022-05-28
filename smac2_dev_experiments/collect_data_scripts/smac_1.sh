@@ -73,7 +73,7 @@ declare -A buffer_size
 buffer_size=(
 ["train"]=8192
 ["evaluate"]=4096
-["debug"]=32
+["debug"]=8
 )
 
 # run parallel
@@ -102,7 +102,7 @@ for map in "${maps[@]}"; do
         if [ $(($count % $threads)) -eq 0 ]; then
             wait
         fi
-        sleep 5
+        sleep 1
     done
 done
 wait
