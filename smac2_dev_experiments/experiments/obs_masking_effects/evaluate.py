@@ -159,8 +159,9 @@ def evaluate_mask(eval_preprocess, epoch, model, target_model, loader, mask, cri
 
         # Matrix metrics
         loss += criterion(q_vals, target_q_vals)
-        error += torch.abs(q_vals - target_q_vals)
-        q_deviation += (error / torch.abs(target_q_vals)).nan_to_num()
+        _error = torch.abs(q_vals - target_q_vals)
+        error += _error
+        q_deviation += (_error / torch.abs(target_q_vals)).nan_to_num()
 
     # Aggregate.
     range_q = max_q - min_q
