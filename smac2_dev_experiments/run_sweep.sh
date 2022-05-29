@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# USAGE ./smac2_dev_experiments/run_sweep.sh <SWEEP_ID> <GPUS>
+# USAGE ./smac2_dev_experiments/run_sweep.sh <SMAC_VERSION> <SWEEP_ID> <GPUS>
 
-SWEEP_ID=$1
-for gpu in "${@:2}"
+SMAC_VERSION=$1
+SWEEP_ID=$2
+for gpu in "${@:3}"
 do
-    ./smac2_dev_experiments/run_in_docker.sh $gpu wandb agent $SWEEP_ID
+    ./smac2_dev_experiments/run_in_docker.sh $gpu $SMAC_VERSION wandb agent $SWEEP_ID
 done
 
 # small datasets: oxwhirl/SMAC2-masking-runs/cndzuvih

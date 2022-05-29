@@ -6,7 +6,7 @@ metric:
 parameters:
   group:
     values:
-      - run_pymarl2_smac1
+      - run-pymarl2-smac1
   smac_version:
     values:
       - 1
@@ -38,5 +38,5 @@ parameters:
       - 1
       - 2
 program: smac2_dev_experiments/experiments/obs_masking_effects/main.py
-project: SMAC-feature-quality
+project: SMAC-QMIX-feature-quality
 entity: oxwhirl
