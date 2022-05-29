@@ -42,7 +42,7 @@ class Loader:
         return size_of_sample / len(self)
 
     def get_max_batch_size(self):
-        device_memory = torch.cuda.memory_reserved(0) * 0.4  # Leave some buffer.
+        device_memory = torch.cuda.get_device_properties(0).total_memory * 0.3  # Leave some buffer.
         size_of_one_sample = self.get_size_of_one_sample()
         max_batch_size = device_memory // size_of_one_sample
         scale = 2 if self.job_type == "train" else 1  # Training consumes memory for autograd and so on ...
