@@ -14,7 +14,7 @@ from experiments.obs_masking_effects.default_params import parse_arguments
 
 def get_save_dir_prefix(config):
     save_dir = pathlib.Path(__file__).parent.resolve()
-    save_dir = save_dir / "best_results" / f"smac_{config.smac_version}" / f"{config.unit_map_name}" / str(config.seed)
+    save_dir = save_dir / "results" / f"smac_{config.smac_version}" / f"{config.unit_map_name}" / str(config.seed)
     return save_dir
 
 
