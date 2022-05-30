@@ -173,8 +173,8 @@ def evaluate_mask(eval_preprocess, epoch, model, target_model, loader, mask, cri
     rmse = torch.sqrt(mean_loss)
     step_rmse = torch.sqrt(loss.squeeze(-1).sum(BATCH_DIM) / episodes_still_running)
 
-    rmse_by_q = rmse / mean_q * 100
-    step_rmse_by_q = step_rmse / step_mean_q * 100
+    rmse_by_q = rmse / torch.abs(mean_q) * 100
+    step_rmse_by_q = step_rmse / torch.abs(step_mean_q) * 100
 
     mean_error = error.sum() / total_steps
     step_mean_error = error.squeeze(-1).sum(BATCH_DIM) / episodes_still_running
