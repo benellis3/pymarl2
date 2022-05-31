@@ -1,0 +1,100 @@
+{
+  "battle_won_mean": [
+    0.0,
+    0.0
+  ],
+  "battle_won_mean_T": [
+    185,
+    2305
+  ],
+  "dead_allies_mean": [
+    19.0,
+    19.454545454545453
+  ],
+  "dead_allies_mean_T": [
+    185,
+    2305
+  ],
+  "dead_enemies_mean": [
+    0.25,
+    0.11363636363636363
+  ],
+  "dead_enemies_mean_T": [
+    185,
+    2305
+  ],
+  "ep_length_mean": [
+    46.25,
+    48.18181818181818
+  ],
+  "ep_length_mean_T": [
+    185,
+    2305
+  ],
+  "episode": [
+    44
+  ],
+  "episode_T": [
+    2119
+  ],
+  "epsilon": [
+    1.0,
+    0.9798695
+  ],
+  "epsilon_T": [
+    185,
+    2305
+  ],
+  "return_mean": [
+    0.8313637786971765,
+    0.35226144148518357
+  ],
+  "return_mean_T": [
+    185,
+    2305
+  ],
+  "return_std": [
+    0.6341682316227063,
+    0.45458843267331805
+  ],
+  "return_std_T": [
+    185,
+    2305
+  ],
+  "test_battle_won_mean": [
+    0.0
+  ],
+  "test_battle_won_mean_T": [
+    185
+  ],
+  "test_dead_allies_mean": [
+    19.46875
+  ],
+  "test_dead_allies_mean_T": [
+    185
+  ],
+  "test_dead_enemies_mean": [
+    0.0
+  ],
+  "test_dead_enemies_mean_T": [
+    185
+  ],
+  "test_ep_length_mean": [
+    44.96875
+  ],
+  "test_ep_length_mean_T": [
+    185
+  ],
+  "test_return_mean": [
+    0.027145577481445752
+  ],
+  "test_return_mean_T": [
+    185
+  ],
+  "test_return_std": [
+    0.08880896756516206
+  ],
+  "test_return_std_T": [
+    185
+  ]
+}

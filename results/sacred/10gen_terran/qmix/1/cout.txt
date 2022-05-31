@@ -1,0 +1,268 @@
+[INFO 15:28:46] pymarl Running command 'my_main'
+[INFO 15:28:46] pymarl Started run with ID "1"
+[DEBUG 15:28:46] my_main Started
+[INFO 15:28:46] my_main Experiment Parameters:
+[INFO 15:28:46] my_main 
+
+{   'action_selector': 'epsilon_greedy',
+    'agent': 'n_rnn',
+    'agent_output_type': 'q',
+    'batch_size': 128,
+    'batch_size_run': 4,
+    'buffer_cpu_only': True,
+    'buffer_size': 5000,
+    'checkpoint_path': '',
+    'critic_lr': 0.0005,
+    'entity': 'oxwhirl',
+    'env': 'sc2wrapped',
+    'env_args': {   'capability_config': {   'n_units': 20,
+                                             'start_positions': {   'dist_type': 'surrounded_and_reflect',
+                                                                    'map_x': 32,
+                                                                    'map_y': 32,
+                                                                    'n_enemies': 20,
+                                                                    'p': 0.5},
+                                             'team_gen': {   'dist_type': 'weighted_teams',
+                                                             'exception_unit_types': [   'medivac'],
+                                                             'observe': True,
+                                                             'unit_types': [   'marine',
+                                                                               'marauder',
+                                                                               'medivac'],
+                                                             'weights': [   0.45,
+                                                                            0.45,
+                                                                            0.1]}},
+                    'conic_fov': True,
+                    'continuing_episode': False,
+                    'debug': False,
+                    'difficulty': '7',
+                    'game_version': None,
+                    'heuristic_ai': False,
+                    'map_name': '10gen_terran',
+                    'move_amount': 2,
+                    'num_fov_actions': 12,
+                    'obs_all_health': True,
+                    'obs_instead_of_state': False,
+                    'obs_last_action': False,
+                    'obs_own_health': True,
+                    'obs_own_pos': True,
+                    'obs_pathing_grid': False,
+                    'obs_terrain_height': False,
+                    'obs_timestep_number': False,
+                    'replay_dir': '',
+                    'replay_prefix': '',
+                    'reward_death_value': 10,
+                    'reward_defeat': 0,
+                    'reward_negative_scale': 0.5,
+                    'reward_only_positive': True,
+                    'reward_scale': True,
+                    'reward_scale_rate': 20,
+                    'reward_sparse': False,
+                    'reward_win': 200,
+                    'seed': 417519834,
+                    'state_last_action': True,
+                    'state_timestep_number': False,
+                    'step_mul': 8},
+    'epsilon_anneal_time': 100000,
+    'epsilon_finish': 0.05,
+    'epsilon_start': 1.0,
+    'evaluate': False,
+    'gamma': 0.99,
+    'grad_norm_clip': 10,
+    'group': 'qmix-sc2_gen_terran-26_QMIX',
+    'hypernet_embed': 64,
+    'label': 'default_label',
+    'learner': 'nq_learner',
+    'learner_log_interval': 2000,
+    'load_step': 0,
+    'local_results_path': 'results',
+    'log_interval': 2000,
+    'lr': 0.001,
+    'mac': 'n_mac',
+    'mixer': 'qmix',
+    'mixing_embed_dim': 32,
+    'name': 'qmix',
+    'obs_agent_id': True,
+    'obs_last_action': True,
+    'optim_alpha': 0.99,
+    'optim_eps': 1e-05,
+    'optimizer': 'adam',
+    'project': 'smac_v2_runs',
+    'q_lambda': False,
+    'repeat_id': 1,
+    'rnn_hidden_dim': 64,
+    'run': 'default',
+    'runner': 'parallel',
+    'runner_log_interval': 2000,
+    'save_model': True,
+    'save_model_interval': 2000000,
+    'save_replay': False,
+    'seed': 417519834,
+    't_max': 10050000,
+    'target_update_interval': 200,
+    'td_lambda': 0.8,
+    'test_greedy': True,
+    'test_interval': 10000,
+    'test_nepisode': 32,
+    'use_cuda': True,
+    'use_tensorboard': False,
+    'use_wandb': True}
+
+[DEBUG 15:28:46] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/private/home/samvelyan/workspace/pymarl2, universal_newlines=False, shell=None, istream=None)
+[DEBUG 15:28:46] urllib3.connectionpool Starting new HTTPS connection (1): api.wandb.ai:443
+[DEBUG 15:28:46] urllib3.connectionpool https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+[DEBUG 15:28:46] urllib3.connectionpool Starting new HTTPS connection (1): api.wandb.ai:443
+[DEBUG 15:28:46] urllib3.connectionpool https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+wandb: Currently logged in as: ued (use `wandb login --relogin` to force relogin)
+[DEBUG 15:28:46] git.cmd Popen(['git', 'cat-file', '--batch-check'], cwd=/private/home/samvelyan/workspace/pymarl2, universal_newlines=False, shell=None, istream=<valid stream>)
+wandb: wandb version 0.12.17 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.12.9
+wandb: Syncing run qmix-10gen_terran-91a3aa
+wandb: ⭐️ View project at https://wandb.ai/oxwhirl/smac_v2_runs
+wandb: 🚀 View run at https://wandb.ai/oxwhirl/smac_v2_runs/runs/15w9lech
+wandb: Run data is saved locally in /private/home/samvelyan/workspace/pymarl2/src/wandb/run-20220526_152846-15w9lech
+wandb: Run `wandb offline` to turn off syncing.
+
+cing.
+
+Mixer Size: 
+247.425K
+[INFO 15:29:00] my_main Beginning training for 10050000 timesteps
+[INFO 15:29:00] absl Launching SC2: /private/home/samvelyan/StarCraftII/Versions/Base75689/SC2_x64 -listen 127.0.0.1 -port 15404 -dataDir /private/home/samvelyan/StarCraftII/ -tempDir /tmp/sc-ftg441zn/
+[INFO 15:29:00] absl Launching SC2: /private/home/samvelyan/StarCraftII/Versions/Base75689/SC2_x64 -listen 127.0.0.1 -port 16857 -dataDir /private/home/samvelyan/StarCraftII/ -tempDir /tmp/sc-7mqlf44h/
+[INFO 15:29:00] absl Launching SC2: /private/home/samvelyan/StarCraftII/Versions/Base75689/SC2_x64 -listen 127.0.0.1 -port 24224 -dataDir /private/home/samvelyan/StarCraftII/ -tempDir /tmp/sc-qu34rnn2/
+[INFO 15:29:00] absl Launching SC2: /private/home/samvelyan/StarCraftII/Versions/Base75689/SC2_x64 -listen 127.0.0.1 -port 16267 -dataDir /private/home/samvelyan/StarCraftII/ -tempDir /tmp/sc-rz139tgo/
+[INFO 15:29:00] absl Connecting to: ws://127.0.0.1:15404/sc2api, attempt: 0, running: True
+[INFO 15:29:00] absl Connecting to: ws://127.0.0.1:24224/sc2api, attempt: 0, running: True
+[INFO 15:29:00] absl Connecting to: ws://127.0.0.1:16857/sc2api, attempt: 0, running: True
+[INFO 15:29:00] absl Connecting to: ws://127.0.0.1:16267/sc2api, attempt: 0, running: True
+Version: B75689 (SC2.4.10)
+Version: B75689 (SC2.4.10)
+Version: B75689 (SC2.4.10)
+Build: Aug 12 2019 17:16:57
+Build: Aug 12 2019 17:16:57
+Build: Aug 12 2019 17:16:57
+Command Line: '"/private/home/samvelyan/StarCraftII/Versions/Base75689/SC2_x64" -listen 127.0.0.1 -port 16857 -dataDir /private/home/samvelyan/StarCraftII/ -tempDir /tmp/sc-7mqlf44h/'
+Command Line: '"/private/home/samvelyan/StarCraftII/Versions/Base75689/SC2_x64" -listen 127.0.0.1 -port 24224 -dataDir /private/home/samvelyan/StarCraftII/ -tempDir /tmp/sc-qu34rnn2/'
+Command Line: '"/private/home/samvelyan/StarCraftII/Versions/Base75689/SC2_x64" -listen 127.0.0.1 -port 15404 -dataDir /private/home/samvelyan/StarCraftII/ -tempDir /tmp/sc-ftg441zn/'
+Version: B75689 (SC2.4.10)
+Build: Aug 12 2019 17:16:57
+Command Line: '"/private/home/samvelyan/StarCraftII/Versions/Base75689/SC2_x64" -listen 127.0.0.1 -port 16267 -dataDir /private/home/samvelyan/StarCraftII/ -tempDir /tmp/sc-rz139tgo/'
+Starting up...
+Starting up...
+Starting up...
+Starting up...
+Startup Phase 1 complete
+Startup Phase 1 complete
+Startup Phase 1 complete
+Startup Phase 1 complete
+[INFO 15:29:01] absl Connecting to: ws://127.0.0.1:15404/sc2api, attempt: 1, running: True
+[INFO 15:29:01] absl Connecting to: ws://127.0.0.1:24224/sc2api, attempt: 1, running: True
+[INFO 15:29:01] absl Connecting to: ws://127.0.0.1:16857/sc2api, attempt: 1, running: True
+[INFO 15:29:01] absl Connecting to: ws://127.0.0.1:16267/sc2api, attempt: 1, running: True
+Startup Phase 2 complete
+Startup Phase 2 complete
+Creating stub renderer...
+Creating stub renderer...
+Startup Phase 2 complete
+Creating stub renderer...
+Startup Phase 2 complete
+Creating stub renderer...
+Listening on: 127.0.0.1:16857
+Startup Phase 3 complete. Ready for commands.
+Listening on: 127.0.0.1:15404
+Listening on: 127.0.0.1:24224
+Startup Phase 3 complete. Ready for commands.
+Startup Phase 3 complete. Ready for commands.
+Listening on: 127.0.0.1:16267
+Startup Phase 3 complete. Ready for commands.
+[INFO 15:29:02] absl Connecting to: ws://127.0.0.1:15404/sc2api, attempt: 2, running: True
+[INFO 15:29:02] absl Connecting to: ws://127.0.0.1:24224/sc2api, attempt: 2, running: True
+[INFO 15:29:02] absl Connecting to: ws://127.0.0.1:16857/sc2api, attempt: 2, running: True
+ConnectHandler: Request from 127.0.0.1:34024 accepted
+ConnectHandler: Request from 127.0.0.1:38166 accepted
+ReadyHandler: 127.0.0.1:34024 ready
+ReadyHandler: 127.0.0.1:38166 ready
+ConnectHandler: Request from 127.0.0.1:40838 accepted
+ReadyHandler: 127.0.0.1:40838 ready
+[INFO 15:29:02] absl Connecting to: ws://127.0.0.1:16267/sc2api, attempt: 2, running: True
+ConnectHandler: Request from 127.0.0.1:33268 accepted
+ReadyHandler: 127.0.0.1:33268 ready
+Requesting to join a single player game
+Configuring interface options
+Configure: raw interface enabled
+Configure: feature layer interface disabled
+Configure: score interface disabled
+Configure: render interface disabled
+Launching next game.
+Requesting to join a single player game
+Configuring interface options
+Configure: raw interface enabled
+Configure: feature layer interface disabled
+Configure: score interface disabled
+Configure: render interface disabled
+Launching next game.
+Requesting to join a single player game
+Configuring interface options
+Configure: raw interface enabled
+Configure: feature layer interface disabled
+Configure: score interface disabled
+Configure: render interface disabled
+Launching next game.
+Requesting to join a single player game
+Configuring interface options
+Configure: raw interface enabled
+Configure: feature layer interface disabled
+Configure: score interface disabled
+Configure: render interface disabled
+Launching next game.
+Next launch phase started: 2
+Next launch phase started: 3
+Next launch phase started: 2
+Next launch phase started: 3
+Next launch phase started: 4
+Next launch phase started: 5
+Next launch phase started: 6
+Next launch phase started: 7
+Next launch phase started: 8
+Next launch phase started: 2
+Next launch phase started: 3
+Next launch phase started: 2
+Next launch phase started: 3
+Next launch phase started: 4
+Next launch phase started: 5
+Next launch phase started: 6
+Next launch phase started: 7
+Next launch phase started: 8
+Next launch phase started: 4
+Next launch phase started: 5
+Next launch phase started: 6
+Next launch phase started: 7
+Next launch phase started: 8
+Next launch phase started: 4
+Next launch phase started: 5
+Next launch phase started: 6
+Next launch phase started: 7
+Next launch phase started: 8
+Game has started.
+Using default stable ids, none found at: /private/home/samvelyan/StarCraftII/stableid.json
+Successfully loaded stable ids: GameData\stableid.json
+Sending ResponseJoinGame
+Game has started.
+Using default stable ids, none found at: /private/home/samvelyan/StarCraftII/stableid.json
+Successfully loaded stable ids: GameData\stableid.json
+Sending ResponseJoinGame
+Game has started.
+Using default stable ids, none found at: /private/home/samvelyan/StarCraftII/stableid.json
+Successfully loaded stable ids: GameData\stableid.json
+Game has started.
+Using default stable ids, none found at: /private/home/samvelyan/StarCraftII/stableid.json
+Sending ResponseJoinGame
+Successfully loaded stable ids: GameData\stableid.json
+Sending ResponseJoinGame
+/private/home/samvelyan/workspace/pymarl2/src/components/episode_buffer.py:103: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at  /opt/conda/conda-bld/pytorch_1639180538648/work/torch/csrc/utils/tensor_new.cpp:201.)
+  v = th.tensor(v, dtype=dtype, device=self.device)
+/private/home/samvelyan/workspace/pymarl2/src/components/episode_buffer.py:103: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  v = th.tensor(v, dtype=dtype, device=self.device)
+[INFO 15:29:09] my_main t_env: 185 / 10050000
+[INFO 15:29:09] my_main Estimated time left: 2 hours, 21 minutes, 31 seconds. Time passed: 8 seconds
+[INFO 15:29:20] my_main Saving models to results/models/qmix__2022-05-26_15-28-46/185
