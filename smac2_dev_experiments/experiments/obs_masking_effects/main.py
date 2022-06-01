@@ -36,7 +36,7 @@ print(device, config)
 # Training artifacts.
 training_loader = Loader(map_name=config.unit_map_name, dataset_type='train', batch_size=config.batch_size,
                          smac_version=int(config.smac_version), seed=int(config.seed))
-evaluation_loader = Loader(map_name=config.unit_map_name, dataset_type='evaluate',
+evaluation_loader = Loader(map_name=config.unit_map_name, dataset_type='evaluate', batch_size=config.batch_size,
                            smac_version=int(config.smac_version), seed=int(config.seed))
 
 model = NQmixNet(training_loader, device)

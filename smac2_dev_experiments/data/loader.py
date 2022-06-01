@@ -25,7 +25,7 @@ class Loader:
         self.episode_buffer = torch.load(self.dataset_dir / "eval_buffer.pth")  # type: ReplayBuffer
         self.episode_buffer.pin_memory()
         self.max_batch_size = self.get_max_batch_size()
-        self.batch_size = self.closest_to_batch_size(batch_size) if batch_size else self.guess_largest_batch_size()
+        self.batch_size = batch_size
         self.nb_batch = len(self) // self.batch_size
         print(f"{dataset_type} dataset. Max batch_size {self.max_batch_size}. Effective batch size {self.batch_size}.")
 
