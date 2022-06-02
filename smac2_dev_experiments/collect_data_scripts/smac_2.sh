@@ -1,6 +1,6 @@
 #!/bin/bash
 trap 'onCtrlC' INT
-set -x
+# set -x
 function onCtrlC () {
   echo 'Ctrl+C is captured'
   for pid in $(jobs -p); do
@@ -19,36 +19,36 @@ units=${8:-5,10,20}
 # Edit this.
 declare -A weight_location
 weight_location=(
-["5_gen_protoss_seed_0"]="results_smac2/leo/models/qmix__2022-05-21_16-49-53"
-["5_gen_protoss_seed_1"]="results_smac2/leo/models/qmix__2022-05-21_16-49-49"
-["5_gen_protoss_seed_2"]="results_smac2/leo/models/qmix__2022-05-21_16-49-45"
-["10_gen_protoss_seed_0"]="results_smac2/orion/models/qmix__2022-05-21_16-30-30"
-["10_gen_protoss_seed_1"]="results_smac2/orion/models/qmix__2022-05-21_16-30-23"
-["10_gen_protoss_seed_2"]="results_smac2/orion/models/special_weights"
-["20_gen_protoss_seed_0"]="results_smac2/saruman/models/qmix__2022-05-21_19-50-39"
-["20_gen_protoss_seed_1"]="results_smac2/saruman/models/qmix__2022-05-21_19-50-34"
-["20_gen_protoss_seed_2"]="results_smac2/saruman/models/qmix__2022-05-21_19-50-31"
-["5_gen_terran_seed_0"]="results_smac2/leo/models/qmix__2022-05-21_16-50-06"
-["5_gen_terran_seed_1"]="results_smac2/leo/models/qmix__2022-05-21_16-50-01"
-["5_gen_terran_seed_2"]="results_smac2/leo/models/qmix__2022-05-21_16-49-57"
-["10_gen_terran_seed_0"]="results_smac2/orion/models/qmix__2022-05-21_16-30-41"
-["10_gen_terran_seed_1"]="results_smac2/orion/models/qmix__2022-05-21_16-30-36"
-["10_gen_terran_seed_2"]="results_smac2/orion/models/qmix__2022-05-21_16-30-36" # This one is wrong.
-["20_gen_terran_seed_0"]="results_smac2/gandalf/models/qmix__2022-05-21_19-16-20"
-["20_gen_terran_seed_1"]="results_smac2/gandalf/models/qmix__2022-05-21_19-16-18"
-["20_gen_terran_seed_2"]="results_smac2/saruman/models/qmix__2022-05-21_19-50-49"
-["5_gen_zerg_seed_0"]="results_smac2/leo/models/qmix__2022-05-21_16-50-18"
-["5_gen_zerg_seed_1"]="results_smac2/leo/models/qmix__2022-05-21_16-50-14"
-["5_gen_zerg_seed_2"]="results_smac2/leo/models/qmix__2022-05-21_16-50-10"
-["10_gen_zerg_seed_0"]="results_smac2/orion/models/qmix__2022-05-21_16-30-53"
-["10_gen_zerg_seed_1"]="results_smac2/orion/models/qmix__2022-05-21_16-30-50"
-["10_gen_zerg_seed_2"]="results_smac2/orion/models/qmix__2022-05-21_16-30-47"
-["20_gen_zerg_seed_0"]="results_smac2/gandalf/models/qmix__2022-05-21_19-16-09"
-["20_gen_zerg_seed_1"]="results_smac2/gandalf/models/qmix__2022-05-21_19-16-05"
-["20_gen_zerg_seed_2"]="results_smac2/gandalf/models/special_weights"
+["5_gen_protoss_seed_0"]="results_smac2_final_run/10gen_protoss/5/0/models"
+["5_gen_protoss_seed_1"]="results_smac2_final_run/10gen_protoss/5/1/models"
+["5_gen_protoss_seed_2"]="results_smac2_final_run/10gen_protoss/5/2/models"
+["10_gen_protoss_seed_0"]="results_smac2_final_run/10gen_protoss/10/0/models"
+["10_gen_protoss_seed_1"]="results_smac2_final_run/10gen_protoss/10/1/models"
+["10_gen_protoss_seed_2"]="results_smac2_final_run/10gen_protoss/10/2/models"
+["20_gen_protoss_seed_0"]="results_smac2_final_run/10gen_protoss/20/0/models"
+["20_gen_protoss_seed_1"]="results_smac2_final_run/10gen_protoss/20/1/models"
+["20_gen_protoss_seed_2"]="results_smac2_final_run/10gen_protoss/20/2/models"
+["5_gen_terran_seed_0"]="results_smac2_final_run/10gen_terran/5/0/models"
+["5_gen_terran_seed_1"]="results_smac2_final_run/10gen_terran/5/1/models"
+["5_gen_terran_seed_2"]="results_smac2_final_run/10gen_terran/5/2/models"
+["10_gen_terran_seed_0"]="results_smac2_final_run/10gen_terran/10/0/models"
+["10_gen_terran_seed_1"]="results_smac2_final_run/10gen_terran/10/1/models"
+["10_gen_terran_seed_2"]="results_smac2_final_run/10gen_terran/10/2/models"
+["20_gen_terran_seed_0"]="results_smac2_final_run/10gen_terran/20/0/models"
+["20_gen_terran_seed_1"]="results_smac2_final_run/10gen_terran/20/1/models"
+["20_gen_terran_seed_2"]="results_smac2_final_run/10gen_terran/20/2/models"
+["5_gen_zerg_seed_0"]="results_smac2_final_run/10gen_zerg/5/0/models"
+["5_gen_zerg_seed_1"]="results_smac2_final_run/10gen_zerg/5/1/models"
+["5_gen_zerg_seed_2"]="results_smac2_final_run/10gen_zerg/5/2/models"
+["10_gen_zerg_seed_0"]="results_smac2_final_run/10gen_zerg/10/0/models"
+["10_gen_zerg_seed_1"]="results_smac2_final_run/10gen_zerg/10/1/models"
+["10_gen_zerg_seed_2"]="results_smac2_final_run/10gen_zerg/10/2/models"
+["20_gen_zerg_seed_0"]="results_smac2_final_run/10gen_zerg/20/0/models"
+["20_gen_zerg_seed_1"]="results_smac2_final_run/10gen_zerg/20/1/models"
+["20_gen_zerg_seed_2"]="results_smac2_final_run/10gen_zerg/20/2/models"
 )
-
-threads=${4:-8}
+echo ${weight_location["20_gen_zerg_seed_0"]}
+threads=${4:-10000}
 args=${5:-}
 gpus=${6:-0,1,2,3,4,5,6,7}
 times=${7:-3}  # corresponds to seeds.
@@ -85,7 +85,7 @@ for map in "${maps[@]}"; do
     for unit in "${units[@]}"; do
         for((seed=0;seed<times;seed++)); do
             gpu=${gpus[$(($count % ${#gpus[@]}))]}
-            ./run_docker.sh $gpu 2 python3 src/main.py \
+            echo python3 src/main.py \
             --config="$config" \
             --env-config="$map" \
             with \
@@ -106,7 +106,7 @@ for map in "${maps[@]}"; do
             if [ $(($count % $threads)) -eq 0 ]; then
                 wait
             fi
-            sleep 5
+            # sleep 5
         done
     done
 done
