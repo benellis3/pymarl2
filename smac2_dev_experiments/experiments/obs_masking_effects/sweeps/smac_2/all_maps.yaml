@@ -1,4 +1,4 @@
-name: example
+name: masking-smac2
 method: grid
 metric:
   goal: minimize
@@ -6,7 +6,10 @@ metric:
 parameters:
   group:
     values:
-      - run_pymarl2_smac2
+      - run-pymarl2-smac2
+  smac_version:
+    values:
+      - 2
   mask_name:
     values:
       - nothing
@@ -24,7 +27,8 @@ parameters:
       - enemy_health_and_shield
       - enemy_distance
       - own_health
-      # Add smac2 masks.
+      - own_fov
+      - own_position
   map_name:
     values:
       - gen_protoss
@@ -32,10 +36,14 @@ parameters:
       - gen_terran
   nb_units:
     values:
+      - 5
+      - 10
       - 20
   seed:
     values:
       - 0
+      - 1
+      - 2
 program: smac2_dev_experiments/experiments/obs_masking_effects/main.py
-project: SMAC2-masking-runs
+project: SMAC-QMIX-feature-quality
 entity: oxwhirl
