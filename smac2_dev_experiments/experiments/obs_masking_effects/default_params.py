@@ -13,11 +13,11 @@ params = dict(
     early_stopper_patience=10,
     early_stopper_min_delta=0,
     epochs=500,
-    batch_size=128,
-    learning_rate=0.001,
-    smac_version=1,
-    map_name="27m_vs_30m",
-    nb_units=20,
+    batch_size=512,
+    learning_rate=0.005,
+    smac_version=2,
+    map_name="gen_terran",
+    nb_units=10,
     mask_name="nothing",
     seed=0
 )
