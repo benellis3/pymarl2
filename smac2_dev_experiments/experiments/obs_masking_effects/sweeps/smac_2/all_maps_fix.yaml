@@ -1,4 +1,4 @@
-name: masking-smac2-fixed-hp
+name: masking-smac2-fixed-hp-and-wandb
 method: grid
 metric:
   goal: minimize
@@ -6,7 +6,7 @@ metric:
 parameters:
   group:
     values:
-      - run-pymarl2-smac2-fixed-hp
+      - run-pymarl2-smac2-fixed-hp-and-wandb
   smac_version:
     values:
       - 2
