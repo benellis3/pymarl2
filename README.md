@@ -13,29 +13,29 @@ We use Docker to manage environments.
 
 1. Build an image for SMAC and SMACv2.
 
-```shell
-cd docker
-./build.sh 1
-./build.sh 2
-```
+   ```shell
+   cd docker
+   ./build.sh 1
+   ./build.sh 2
+   ```
 
 2. Install StarCraft II (SC2.4.10) and SMAC maps:
 
-```shell
-bash install_sc2.sh
-```
+   ```shell
+   bash install_sc2.sh
+   ```
 
-This will download SC2.4.10 into the 3rdparty folder and copy the maps necessary to run over.
+   This will download SC2.4.10 into the 3rdparty folder and copy the maps necessary to run over.
 
 3. Configure `wandb`
 
 We use Weights & Biases to manage ethe logs of our experiments. If you want to use `wandb` then
 
-```shell
-EXPORT WANDB_API_KEY=<your_wandb_api_key>
-```
+   ```shell
+   export WANDB_API_KEY=<your_wandb_api_key>
+   ```
 
-Otherwise, you can run experiments offline.
+   Otherwise, you can run the experiments offline.
 
 ## Running the Experiment
 
@@ -43,7 +43,7 @@ We describe how to run the experiment for a specific SMAC scenario.
 
 1. Collect a dataset for a scenario:
 
-   A dataset consists of replay episodes collected with previously trained QMIX policy on the given scenario.
+   A dataset consists of replay episodes collected with an already trained QMIX policy for the given scenario.
    The weights of the trained QMIX policies are saved in `results_smac1` and `results_smac2_final_run`.
 
    To generate the dataset associated to the first seed on the `5_gen_protoss` scenario you can run
