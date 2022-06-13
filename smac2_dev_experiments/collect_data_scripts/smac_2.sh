@@ -85,7 +85,7 @@ for map in "${maps[@]}"; do
     for unit in "${units[@]}"; do
         for((seed=0;seed<times;seed++)); do
             gpu=${gpus[$(($count % ${#gpus[@]}))]}
-            echo python3 src/main.py \
+            ./run_docker.sh $gpu 2 python3 src/main.py \
             --config="$config" \
             --env-config="$map" \
             with \

@@ -6,12 +6,10 @@ ARG SMAC_VERSION
 ADD install_dependencies.sh /source/
 RUN bash -c "/source/install_dependencies.sh ${SMAC_VERSION}"
 
-RUN pip install pymongo
-
-ENV smac_ver 1
-ENV SC2PATH /home/ms21sm/pymarl2/3rdparty/StarCraftII
-
+ARG USER
 ARG UID
-RUN useradd -u $UID --create-home ms21sm
-USER ms21sm
-WORKDIR /home/ms21sm/pymarl2
+RUN useradd -u $UID --create-home $USER
+USER $USER
+
+ENV SC2PATH /home/$USER/pymarl2/3rdparty/StarCraftII
+WORKDIR /home/$USER/pymarl2

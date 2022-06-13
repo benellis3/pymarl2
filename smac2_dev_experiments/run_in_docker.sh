@@ -21,15 +21,15 @@ fi
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 
-NV_GPU="$GPU" ${cmd} run -d \
+NV_GPU="$GPU" ${cmd} run \
     --name "$name" \
     --user "$(id -u)" \
     -e WANDB_API_KEY=$WANDB_API_KEY \
-    -e PYTHONPATH=/home/ms21sm/pymarl2/src:/home/ms21sm/pymarl2/smac2_dev_experiments \
+    -e "PYTHONPATH=/home/$(id -un)/pymarl2/src:/home/$(id -un)/pymarl2/smac2_dev_experiments" \
     -e LC_ALL=C.UTF-8 \
     -e LANG=C.UTF-8 \
-    -v "$(pwd)":/home/ms21sm/pymarl2 \
-    "pymarl:ms21sm_smac_v${SMAC_VERSION}" \
+    -v "$(pwd)":/home/$(id -un)/pymarl2 \
+    "pymarl:$(id -un)_smac_v${SMAC_VERSION}" \
     ${@:3}
 
 # E.g. commands.

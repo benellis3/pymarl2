@@ -1,4 +1,4 @@
-# Experiments on observation sensitivity.
+# (Internal, potentially outdated.) Experiments on observation sensitivity.
 
 Assumes you already have trained models saved in `pymarl2/results` or `pymarl2/results_smac_2`.
 

@@ -1,7 +1,6 @@
 #!/bin/bash
 set -x
 HASH=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 4 | head -n 1)
-#WANDB_API_KEY=$(cat $WANDB_API_KEY_FILE)
 GPU=$1
 SMAC_VERSION=$2
 name=${USER}_pymarl_GPU_${GPU}_${HASH}
@@ -19,8 +18,8 @@ NV_GPU="$GPU" ${cmd} run \
     -e WANDB_API_KEY=$WANDB_API_KEY \
     --name $name \
     --user $(id -u) \
-     -v "$(pwd)":/home/ms21sm/pymarl2 \
-    pymarl:ms21sm_smac_v${SMAC_VERSION} \
+     -v "$(pwd)":/home/$(id -un)/pymarl2 \
+    "pymarl:$(id -un)_smac_v${SMAC_VERSION}" \
     ${@:3}
 
-# Usage ./run_docker <gpu> <smac_version> <docker-run-flag> <command>
+# Usage ./run_docker <gpu> <smac_version> <command>

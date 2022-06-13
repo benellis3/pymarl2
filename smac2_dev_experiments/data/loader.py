@@ -24,46 +24,11 @@ class Loader:
         self.state_feature_names, self.obs_feature_names = feature_names["state"], feature_names["observations"]
         self.episode_buffer = torch.load(self.dataset_dir / "eval_buffer.pth")  # type: ReplayBuffer
         self.episode_buffer.pin_memory()
-        self.max_batch_size = self.get_max_batch_size()
         self.batch_size = batch_size
         self.nb_batch = len(self) // self.batch_size
-        print(f"{dataset_type} dataset. Max batch_size {self.max_batch_size}. Effective batch size {self.batch_size}.")
 
     def __len__(self):
         return self.episode_buffer.episodes_in_buffer
-
-    def get_size_of_one_sample(self):
-        size_of_sample = 0
-        for k, v in self.episode_buffer.data.transition_data.items():
-            size_of_sample += sys.getsizeof(self.episode_buffer.data.transition_data[k].storage())
-        for k, v in self.episode_buffer.data.episode_data.items():
-            size_of_sample += sys.getsizeof(self.episode_buffer.data.episode_data[k].storage())
-        size_of_sample += 6 * sys.getsizeof(self.episode_buffer["reward"].storage())  # Used during evaluation.
-        return size_of_sample / len(self)
-
-    def get_max_batch_size(self):
-        device_memory = torch.cuda.get_device_properties(0).total_memory * 0.3  # Leave some buffer.
-        size_of_one_sample = self.get_size_of_one_sample()
-        max_batch_size = device_memory // size_of_one_sample
-        scale = 2 if self.job_type == "train" else 1  # Training consumes memory for autograd and so on ...
-        return max_batch_size / scale
-
-    def closest_to_batch_size(self, batch_size):
-        max_size = self.max_batch_size
-        if batch_size <= max_size:
-            return batch_size
-        else:
-            while batch_size > max_size:
-                batch_size //= 2
-            return batch_size
-
-    def guess_largest_batch_size(self):
-        if self.max_batch_size >= len(self):
-            return len(self)
-        else:
-            possible_batch_sizes = [4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1]
-            batch_size = max(filter(lambda size: size <= self.max_batch_size, possible_batch_sizes))
-            return batch_size
 
     def sample_batches(self, device):
         for _ in range(self.nb_batch):

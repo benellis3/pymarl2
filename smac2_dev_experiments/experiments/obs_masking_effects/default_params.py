@@ -16,9 +16,9 @@ params = dict(
     batch_size=512,
     learning_rate=0.005,
     smac_version=2,
-    map_name="gen_terran",
-    nb_units=10,
-    mask_name="nothing",
+    map_name="gen_protoss",
+    nb_units=5,
+    mask_name="ally_health",
     seed=0
 )
 

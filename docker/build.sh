@@ -7,4 +7,8 @@ if [ ! $1 ]; then
 fi
 
 echo "Building Dockerfile with image name pymarl for smac version ${1}"
-docker build --no-cache --build-arg UID=$UID --build-arg SMAC_VERSION=$1 -t "pymarl:ms21sm_smac_v${1}" .
+docker build --no-cache \
+             --build-arg UID=$(id -u) \
+             --build-arg USER=$(id -un) \
+             --build-arg SMAC_VERSION=$1 \
+             -t "pymarl:${USER}_smac_v${1}" .

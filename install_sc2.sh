@@ -1,14 +1,6 @@
 #!/bin/bash
 # Install SC2 and add the custom maps
 
-if [ -z "$EXP_DIR" ]
-then
-    EXP_DIR=~
-fi
-
-echo "EXP_DIR: $EXP_DIR"
-cd $EXP_DIR/pymarl2
-
 mkdir 3rdparty
 cd 3rdparty
 
