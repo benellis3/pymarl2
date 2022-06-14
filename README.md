@@ -29,7 +29,7 @@ We use Docker to manage environments.
 
 3. Configure `wandb`
 
-We use Weights & Biases to manage ethe logs of our experiments. If you want to use `wandb` then
+   We use Weights & Biases to manage ethe logs of our experiments. If you want to use `wandb` then
 
    ```shell
    export WANDB_API_KEY=<your_wandb_api_key>
@@ -45,6 +45,7 @@ We describe how to run the experiment for a specific SMAC scenario.
 
    A dataset consists of replay episodes collected with an already trained QMIX policy for the given scenario.
    The weights of the trained QMIX policies are saved in `results_smac1` and `results_smac2_final_run`.
+   The parameter used for their training, and the full logs of their training can be found in their respective `logs/cout.txt` file.
 
    To generate the dataset associated to the first seed on the `5_gen_protoss` scenario you can run
 
