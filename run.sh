@@ -13,8 +13,8 @@ function onCtrlC () {
 
 config=$1  # qmix
 tag=$2
-maps=${3:-27m_vs_30m,5m_vs_6m,8m_vs_9m,corridor,2c_vs_64zg,10m_vs_11m,3s5z_vs_3s6z,6h_vs_8z,MMM2}   # MMM2 left out
-threads=${4:-1} # 2
+maps=${3:-corridor,2c_vs_64zg,10m_vs_11m}   # MMM2 left out
+threads=${4:-9} # 2
 # td_lambdas=${9:-0.6}
 # eps_anneals=${10:-100000}
 args=${5:-}    # ""
@@ -49,7 +49,7 @@ for map in "${maps[@]}"; do
                     
         gpu=${gpus[$(($count % ${#gpus[@]}))]}  
         group="${config}-${map}-${tag}"
-        ./run_docker.sh $gpu python3 src/main.py --config="$config" --env-config="sc2" with group="$group" use_wandb=True env_args.map_name=$map save_model=True "${args[@]}" &
+        ./run_docker.sh $gpu python3 src/main.py --config="$config" --env-config="sc2" with group="$group" use_wandb=True env_args.map_name=$map save_model=True env_args.obs_starcraft=False env_args.obs_timestep_number=True "${args[@]}" &
                     
         count=$(($count + 1))     
                     

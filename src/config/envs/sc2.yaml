@@ -13,6 +13,7 @@ env_args:
   obs_pathing_grid: False
   obs_terrain_height: False
   obs_timestep_number: False
+  obs_starcraft: True
   reward_death_value: 10
   reward_defeat: 0
   reward_negative_scale: 0.5
