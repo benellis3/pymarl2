@@ -13,7 +13,7 @@ function onCtrlC () {
 
 config=$1  # qmix
 tag=$2
-maps=${3:-corridor,2c_vs_64zg,10m_vs_11m}   # MMM2 left out
+maps=${3:-27m_vs_30m,8m_vs_9m,5m_vs_6m,corridor,2c_vs_64zg,10m_vs_11m,6h_vs_8z,MMM2,3s5z_vs_3s6z}   # MMM2 left out
 threads=${4:-9} # 2
 # td_lambdas=${9:-0.6}
 # eps_anneals=${10:-100000}
