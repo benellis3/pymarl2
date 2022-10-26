@@ -12,5 +12,5 @@ then
   pip install git+https://github.com/skandermoalla/smac.git@feature-names
 else
   # SMACv2
-  pip install git+https://github.com/benellis3/smac.git@smac-v2-feature-names
+  pip install git+https://github.com/oxwhirl/smacv2.git@ranges
 fi
