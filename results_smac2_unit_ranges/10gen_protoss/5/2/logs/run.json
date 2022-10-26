@@ -1,0 +1,100 @@
+{
+  "artifacts": [],
+  "command": "my_main",
+  "experiment": {
+    "base_dir": "/source/src",
+    "dependencies": [
+      "munch==2.5.0",
+      "numpy==1.21.2",
+      "PyYAML==6.0",
+      "sacred==0.8.2",
+      "torch==1.11.0",
+      "wandb==0.13.4"
+    ],
+    "mainfile": "main.py",
+    "name": "pymarl",
+    "repositories": [
+      {
+        "commit": "45df4990e26b764b2a109228ccd8c0273564a000",
+        "dirty": true,
+        "url": "git@github.com:benellis3/pymarl2.git"
+      },
+      {
+        "commit": "45df4990e26b764b2a109228ccd8c0273564a000",
+        "dirty": true,
+        "url": "git@github.com:benellis3/pymarl2.git"
+      }
+    ],
+    "sources": [
+      [
+        "main.py",
+        "_sources/main_77ce6ac0e94d7dcd84f3fb8d4620c6d4.py"
+      ],
+      [
+        "utils/logging.py",
+        "_sources/logging_bbd5e57a493f521cc49efce26ee07e51.py"
+      ]
+    ]
+  },
+  "heartbeat": "2022-10-07T15:06:30.880233",
+  "host": {
+    "ENV": {},
+    "cpu": "Intel(R) Xeon(R) Silver 4214 CPU @ 2.20GHz",
+    "gpus": {
+      "driver_version": "510.85.02",
+      "gpus": [
+        {
+          "model": "NVIDIA GeForce RTX 2080 Ti",
+          "persistence_mode": false,
+          "total_memory": 11264
+        }
+      ]
+    },
+    "hostname": "463035029f73",
+    "os": [
+      "Linux",
+      "Linux-5.4.0-122-generic-x86_64-with-glibc2.17"
+    ],
+    "python_version": "3.8.12"
+  },
+  "meta": {
+    "command": "my_main",
+    "options": {
+      "--beat-interval": null,
+      "--capture": null,
+      "--comment": null,
+      "--debug": false,
+      "--enforce_clean": false,
+      "--file_storage": null,
+      "--force": false,
+      "--help": false,
+      "--loglevel": null,
+      "--mongo_db": null,
+      "--name": null,
+      "--pdb": false,
+      "--print-config": false,
+      "--priority": null,
+      "--queue": false,
+      "--s3": null,
+      "--sql": null,
+      "--tiny_db": null,
+      "--unobserved": false,
+      "COMMAND": null,
+      "UPDATE": [
+        "group=qmix-sc2_gen_protoss-draco",
+        "env_args.capability_config.n_units=5",
+        "env_args.capability_config.n_enemies=5",
+        "use_wandb=True",
+        "td_lambda=0.6",
+        "epsilon_anneal_time=100000",
+        "save_model=True"
+      ],
+      "help": false,
+      "with": true
+    }
+  },
+  "resources": [],
+  "result": null,
+  "start_time": "2022-10-06T15:20:10.719333",
+  "status": "RUNNING"
+}
