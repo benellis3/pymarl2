@@ -14,38 +14,38 @@ function onCtrlC () {
 config=$1  # qmix
 tag=$2  # train, evaluate, or debug.
 maps=${3:-sc2_gen_protoss,sc2_gen_terran,sc2_gen_zerg}
-units=${8:-5,10,20}
+units=${8:-5}
 
 # Edit this.
 declare -A weight_location
 weight_location=(
-["5_gen_protoss_seed_0"]="results_smac2_final_run/10gen_protoss/5/0/models"
-["5_gen_protoss_seed_1"]="results_smac2_final_run/10gen_protoss/5/1/models"
-["5_gen_protoss_seed_2"]="results_smac2_final_run/10gen_protoss/5/2/models"
-["10_gen_protoss_seed_0"]="results_smac2_final_run/10gen_protoss/10/0/models"
-["10_gen_protoss_seed_1"]="results_smac2_final_run/10gen_protoss/10/1/models"
-["10_gen_protoss_seed_2"]="results_smac2_final_run/10gen_protoss/10/2/models"
-["20_gen_protoss_seed_0"]="results_smac2_final_run/10gen_protoss/20/0/models"
-["20_gen_protoss_seed_1"]="results_smac2_final_run/10gen_protoss/20/1/models"
-["20_gen_protoss_seed_2"]="results_smac2_final_run/10gen_protoss/20/2/models"
-["5_gen_terran_seed_0"]="results_smac2_final_run/10gen_terran/5/0/models"
-["5_gen_terran_seed_1"]="results_smac2_final_run/10gen_terran/5/1/models"
-["5_gen_terran_seed_2"]="results_smac2_final_run/10gen_terran/5/2/models"
-["10_gen_terran_seed_0"]="results_smac2_final_run/10gen_terran/10/0/models"
-["10_gen_terran_seed_1"]="results_smac2_final_run/10gen_terran/10/1/models"
-["10_gen_terran_seed_2"]="results_smac2_final_run/10gen_terran/10/2/models"
-["20_gen_terran_seed_0"]="results_smac2_final_run/10gen_terran/20/0/models"
-["20_gen_terran_seed_1"]="results_smac2_final_run/10gen_terran/20/1/models"
-["20_gen_terran_seed_2"]="results_smac2_final_run/10gen_terran/20/2/models"
-["5_gen_zerg_seed_0"]="results_smac2_final_run/10gen_zerg/5/0/models"
-["5_gen_zerg_seed_1"]="results_smac2_final_run/10gen_zerg/5/1/models"
-["5_gen_zerg_seed_2"]="results_smac2_final_run/10gen_zerg/5/2/models"
-["10_gen_zerg_seed_0"]="results_smac2_final_run/10gen_zerg/10/0/models"
-["10_gen_zerg_seed_1"]="results_smac2_final_run/10gen_zerg/10/1/models"
-["10_gen_zerg_seed_2"]="results_smac2_final_run/10gen_zerg/10/2/models"
-["20_gen_zerg_seed_0"]="results_smac2_final_run/10gen_zerg/20/0/models"
-["20_gen_zerg_seed_1"]="results_smac2_final_run/10gen_zerg/20/1/models"
-["20_gen_zerg_seed_2"]="results_smac2_final_run/10gen_zerg/20/2/models"
+["5_gen_protoss_seed_0"]="results_smac2_unit_ranges/10gen_protoss/5/0/models"
+["5_gen_protoss_seed_1"]="results_smac2_unit_ranges/10gen_protoss/5/1/models"
+["5_gen_protoss_seed_2"]="results_smac2_unit_ranges/10gen_protoss/5/2/models"
+["10_gen_protoss_seed_0"]="results_smac2_unit_ranges/10gen_protoss/10/0/models"
+["10_gen_protoss_seed_1"]="results_smac2_unit_ranges/10gen_protoss/10/1/models"
+["10_gen_protoss_seed_2"]="results_smac2_unit_ranges/10gen_protoss/10/2/models"
+["20_gen_protoss_seed_0"]="results_smac2_unit_ranges/10gen_protoss/20/0/models"
+["20_gen_protoss_seed_1"]="results_smac2_unit_ranges/10gen_protoss/20/1/models"
+["20_gen_protoss_seed_2"]="results_smac2_unit_ranges/10gen_protoss/20/2/models"
+["5_gen_terran_seed_0"]="results_smac2_unit_ranges/10gen_terran/5/0/models"
+["5_gen_terran_seed_1"]="results_smac2_unit_ranges/10gen_terran/5/1/models"
+["5_gen_terran_seed_2"]="results_smac2_unit_ranges/10gen_terran/5/2/models"
+["10_gen_terran_seed_0"]="results_smac2_unit_ranges/10gen_terran/10/0/models"
+["10_gen_terran_seed_1"]="results_smac2_unit_ranges/10gen_terran/10/1/models"
+["10_gen_terran_seed_2"]="results_smac2_unit_ranges/10gen_terran/10/2/models"
+["20_gen_terran_seed_0"]="results_smac2_unit_ranges/10gen_terran/20/0/models"
+["20_gen_terran_seed_1"]="results_smac2_unit_ranges/10gen_terran/20/1/models"
+["20_gen_terran_seed_2"]="results_smac2_unit_ranges/10gen_terran/20/2/models"
+["5_gen_zerg_seed_0"]="results_smac2_unit_ranges/10gen_zerg/5/0/models"
+["5_gen_zerg_seed_1"]="results_smac2_unit_ranges/10gen_zerg/5/1/models"
+["5_gen_zerg_seed_2"]="results_smac2_unit_ranges/10gen_zerg/5/2/models"
+["10_gen_zerg_seed_0"]="results_smac2_unit_ranges/10gen_zerg/10/0/models"
+["10_gen_zerg_seed_1"]="results_smac2_unit_ranges/10gen_zerg/10/1/models"
+["10_gen_zerg_seed_2"]="results_smac2_unit_ranges/10gen_zerg/10/2/models"
+["20_gen_zerg_seed_0"]="results_smac2_unit_ranges/10gen_zerg/20/0/models"
+["20_gen_zerg_seed_1"]="results_smac2_unit_ranges/10gen_zerg/20/1/models"
+["20_gen_zerg_seed_2"]="results_smac2_unit_ranges/10gen_zerg/20/2/models"
 )
 echo ${weight_location["20_gen_zerg_seed_0"]}
 threads=${4:-10000}
@@ -91,13 +91,13 @@ for map in "${maps[@]}"; do
             with \
             use_wandb=False \
             env_args.capability_config.n_units=$unit \
-            env_args.capability_config.start_positions.n_enemies=$unit \
+            env_args.capability_config.n_enemies=$unit \
             checkpoint_path="${weight_location["${unit}_${map:4}_seed_${seed}"]}" \
             evaluate=True \
             buffer_size=${buffer_size["${tag}"]} \
             test_nepisode=${buffer_size["${tag}"]} \
             save_eval_buffer=True \
-            save_eval_buffer_path="smac2_dev_experiments/data/smac_2" \
+            save_eval_buffer_path="smac2_dev_experiments/data/smac_2_unit_ranges" \
             saving_eval_seed=$seed \
             saving_eval_type=$tag \
             "${args[@]}" &
