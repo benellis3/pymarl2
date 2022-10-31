@@ -42,6 +42,6 @@ parameters:
       - 0
       - 1
       - 2
-program: experiments/obs_masking_effects/main.py
+program: smac2_dev_experiments/experiments/obs_masking_effects/main.py
 project: SMAC-QMIX-feature-quality
 entity: oxwhirl

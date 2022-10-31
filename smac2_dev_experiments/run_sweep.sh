@@ -6,7 +6,7 @@ SMAC_VERSION=$1
 SWEEP_ID=$2
 for gpu in "${@:3}"
 do
-    ./smac2_dev_experiments/run_in_docker.sh $gpu $SMAC_VERSION wandb agent $SWEEP_ID
+    ./smac2_dev_experiments/run_in_docker.sh $gpu $SMAC_VERSION wandb agent $SWEEP_ID &
 done
 
 # small datasets: oxwhirl/SMAC2-masking-runs/cndzuvih
