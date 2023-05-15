@@ -4,7 +4,7 @@ import os
 
 from .multiagentenv import MultiAgentEnv
 
-from smac.env import StarCraft2Env, StarCraftCapabilityEnvWrapper
+from smacv2.env import StarCraft2Env, StarCraftCapabilityEnvWrapper
 from .one_step_matrix_game import OneStepMatrixGame
 from .stag_hunt import StagHunt
 

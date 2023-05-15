@@ -16,7 +16,7 @@ from controllers import REGISTRY as mac_REGISTRY
 from components.episode_buffer import ReplayBuffer
 from components.transforms import OneHot
 
-from smac.env import StarCraft2Env
+from smacv2.env import StarCraft2Env
 
 def get_agent_own_state_size(env_args):
     sc_env = StarCraft2Env(**env_args)
