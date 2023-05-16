@@ -14,15 +14,15 @@ function onCtrlC () {
 config=$1  # qmix
 tag=$2
 maps=${3:-sc2_gen_protoss,sc2_gen_terran,sc2_gen_zerg}   # MMM2 left out
-units=${8:-6}
+units=${8:-5}
 offset=0
-threads=${4:-9} # 2
+threads=${4:-24} # 2
 td_lambdas=${9:-0.6}
 eps_anneals=${10:-100000}
 args=${5:-}    # ""
 gpus=${6:-0,1,2,3,4,5,6,7}    # 0,1
 times=${7:-3}   # 5
-prob_obs_enemy=${11:-0.0,0.5,1.0}
+prob_obs_enemy=${11:-0.0,1.0}
 
 maps=(${maps//,/ })
 units=(${units//,/ })
