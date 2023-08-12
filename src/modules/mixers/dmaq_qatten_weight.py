@@ -13,7 +13,12 @@ class Qatten_Weight(nn.Module):
         self.args = args
         self.n_agents = args.n_agents
         self.state_dim = int(np.prod(args.state_shape))
-        self.unit_dim = args.unit_dim
+        if 'stalker' in args.env_args['capability_config']['team_gen']['unit_types']:
+            shield_bits = 1
+        else:
+            shield_bits = 0
+        self.unit_dim = 4 + shield_bits + 3
+        # self.unit_dim = 4 + args.env_args.
         self.n_actions = args.n_actions
         self.sa_dim = self.state_dim + self.n_agents * self.n_actions
         self.n_head = args.n_head  # attention head num

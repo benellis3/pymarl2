@@ -9,7 +9,7 @@ RUN pip install sacred numpy scipy gym==0.10.8 matplotlib seaborn pyyaml pygame 
 RUN pip install pymongo
 
 ENV smac_ver 1
-RUN pip install "protobuf<3.21" -U git+https://github.com/oxwhirl/smacv2.git@posmac
+RUN pip install "protobuf<3.21" -U git+https://github.com/oxwhirl/smacv2.git
 ENV SC2PATH /home/jonook/src/pymarl2/3rdparty/StarCraftII
 
 ARG UID

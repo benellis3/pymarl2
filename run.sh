@@ -14,7 +14,7 @@ function onCtrlC () {
 config=$1  # qmix
 tag=$2
 maps=${3:-sc2_gen_protoss,sc2_gen_terran,sc2_gen_zerg}   # MMM2 left out
-units=${8:-5}
+units=${8:-10}
 offset=0
 threads=${4:-24} # 2
 td_lambdas=${9:-0.6}
@@ -22,7 +22,7 @@ eps_anneals=${10:-100000}
 args=${5:-}    # ""
 gpus=${6:-0,1,2,3,4,5,6,7}    # 0,1
 times=${7:-3}   # 5
-prob_obs_enemy=${11:-0.0,1.0}
+prob_obs_enemy=${11:-1.0}
 
 maps=(${maps//,/ })
 units=(${units//,/ })
@@ -59,7 +59,8 @@ for prob in "${prob_obs_enemy[@]}"; do
                         gpu=${gpus[$(($count % ${#gpus[@]}))]}
                         group="${config}-${map}-${tag}"
                         enemies=$(($unit + $offset))
-                        ./run_docker.sh $gpu python3 src/main.py --config="$config" --env-config="$map" with group="$group" env_args.capability_config.n_units=$unit env_args.capability_config.n_enemies=$enemies env_args.prob_obs_enemy=$prob use_wandb=True td_lambda=$tdlambda epsilon_anneal_time=$epsanneal save_model=True "${args[@]}" &
+                        ./run_docker.sh $gpu python3 src/main.py --config="$config" --env-config="$map" with group="$group" env_args.capability_config.n_units=$unit env_args.capability_config.n_enemies=$enemies env_args.prob_obs_enemy=$prob use_wandb=True epsilon_anneal_time=$epsanneal save_model=True "${args[@]}" &
+                        # td_lambda=$tdlambda
 
                         count=$(($count + 1))
                         if [ $(($count % $threads)) -eq 0 ]; then

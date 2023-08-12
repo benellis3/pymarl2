@@ -1,13 +1,12 @@
-# From https://github.com/wjh720/QPLEX/, added here for convenience.
 import copy
 from components.episode_buffer import EpisodeBatch
 from modules.mixers.dmaq_general import DMAQer
+from modules.mixers.dmaq_qatten import DMAQ_QattenMixer
 import torch.nn.functional as F
 import torch as th
-from torch.optim import Adam
+from torch.optim import RMSprop
 import numpy as np
-from utils.rl_utils import build_td_lambda_targets
-from utils.th_utils import get_parameters_num
+
 
 class DMAQ_qattenLearner:
     def __init__(self, mac, scheme, logger, args):
@@ -23,15 +22,14 @@ class DMAQ_qattenLearner:
         if args.mixer is not None:
             if args.mixer == "dmaq":
                 self.mixer = DMAQer(args)
+            elif args.mixer == 'dmaq_qatten':
+                self.mixer = DMAQ_QattenMixer(args)
             else:
                 raise ValueError("Mixer {} not recognised.".format(args.mixer))
             self.params += list(self.mixer.parameters())
             self.target_mixer = copy.deepcopy(self.mixer)
 
-        self.optimiser = Adam(params=self.params, lr=args.lr)
-
-        print('Mixer Size: ')
-        print(get_parameters_num(self.mixer.parameters()))
+        self.optimiser = RMSprop(params=self.params, lr=args.lr, alpha=args.optim_alpha, eps=args.optim_eps)
 
         # a little wasteful to deepcopy (e.g. duplicates action selector), but should work for any MAC
         self.target_mac = copy.deepcopy(mac)
@@ -83,44 +81,66 @@ class DMAQ_qattenLearner:
             target_mac_out.append(target_agent_outs)
 
         # We don't need the first timesteps Q-Value estimate for calculating targets
-        target_mac_out = th.stack(target_mac_out, dim=1)  # Concat across time
+        target_mac_out = th.stack(target_mac_out[1:], dim=1)  # Concat across time
 
         # Mask out unavailable actions
-        target_mac_out[avail_actions == 0] = -9999999
+        target_mac_out[avail_actions[:, 1:] == 0] = -9999999
 
         # Max over target Q-Values
         if self.args.double_q:
             # Get actions that maximise live Q (for double q-learning)
             mac_out_detach = mac_out.clone().detach()
             mac_out_detach[avail_actions == 0] = -9999999
-            cur_max_actions = mac_out_detach.max(dim=3, keepdim=True)[1]
+            cur_max_actions = mac_out_detach[:, 1:].max(dim=3, keepdim=True)[1]
             target_chosen_qvals = th.gather(target_mac_out, 3, cur_max_actions).squeeze(3)
             target_max_qvals = target_mac_out.max(dim=3)[0]
+            target_next_actions = cur_max_actions.detach()
 
             cur_max_actions_onehot = th.zeros(cur_max_actions.squeeze(3).shape + (self.n_actions,)).cuda()
             cur_max_actions_onehot = cur_max_actions_onehot.scatter_(3, cur_max_actions, 1)
         else:
-            raise "Use Double Q"
+            # Calculate the Q-Values necessary for the target
+            target_mac_out = []
+            self.target_mac.init_hidden(batch.batch_size)
+            for t in range(batch.max_seq_length):
+                target_agent_outs = self.target_mac.forward(batch, t=t)
+                target_mac_out.append(target_agent_outs)
+            # We don't need the first timesteps Q-Value estimate for calculating targets
+            target_mac_out = th.stack(target_mac_out[1:], dim=1)  # Concat across time
+            target_max_qvals = target_mac_out.max(dim=3)[0]
 
         # Mix
         if mixer is not None:
-            ans_chosen = mixer(chosen_action_qvals, batch["state"][:, :-1], is_v=True)
-            ans_adv = mixer(chosen_action_qvals, batch["state"][:, :-1], actions=actions_onehot,
-                            max_q_i=max_action_qvals, is_v=False)
-            chosen_action_qvals = ans_chosen + ans_adv
+            if self.args.mixer == "dmaq_qatten":
+                ans_chosen, q_attend_regs, head_entropies = \
+                    mixer(chosen_action_qvals, batch["state"][:, :-1], is_v=True)
+                ans_adv, _, _ = mixer(chosen_action_qvals, batch["state"][:, :-1], actions=actions_onehot,
+                                      max_q_i=max_action_qvals, is_v=False)
+                chosen_action_qvals = ans_chosen + ans_adv
+            else:
+                ans_chosen = mixer(chosen_action_qvals, batch["state"][:, :-1], is_v=True)
+                ans_adv = mixer(chosen_action_qvals, batch["state"][:, :-1], actions=actions_onehot,
+                                max_q_i=max_action_qvals, is_v=False)
+                chosen_action_qvals = ans_chosen + ans_adv
 
             if self.args.double_q:
-                target_chosen = self.target_mixer(target_chosen_qvals, batch["state"], is_v=True)
-                target_adv = self.target_mixer(target_chosen_qvals, batch["state"],
-                                                actions=cur_max_actions_onehot,
-                                                max_q_i=target_max_qvals, is_v=False)
-                target_max_qvals = target_chosen + target_adv
+                if self.args.mixer == "dmaq_qatten":
+                    target_chosen, _, _ = self.target_mixer(target_chosen_qvals, batch["state"][:, 1:], is_v=True)
+                    target_adv, _, _ = self.target_mixer(target_chosen_qvals, batch["state"][:, 1:],
+                                                         actions=cur_max_actions_onehot,
+                                                         max_q_i=target_max_qvals, is_v=False)
+                    target_max_qvals = target_chosen + target_adv
+                else:
+                    target_chosen = self.target_mixer(target_chosen_qvals, batch["state"][:, 1:], is_v=True)
+                    target_adv = self.target_mixer(target_chosen_qvals, batch["state"][:, 1:],
+                                                   actions=cur_max_actions_onehot,
+                                                   max_q_i=target_max_qvals, is_v=False)
+                    target_max_qvals = target_chosen + target_adv
             else:
-                raise "Use Double Q"
+                target_max_qvals = self.target_mixer(target_max_qvals, batch["state"][:, 1:], is_v=True)
 
         # Calculate 1-step Q-Learning targets
-        targets = build_td_lambda_targets(rewards, terminated, mask, target_max_qvals, 
-                                    self.args.n_agents, self.args.gamma, self.args.td_lambda)
+        targets = rewards + self.args.gamma * (1 - terminated) * target_max_qvals
 
         if show_demo:
             tot_q_data = chosen_action_qvals.detach().cpu().numpy()
@@ -140,7 +160,10 @@ class DMAQ_qattenLearner:
         masked_td_error = td_error * mask
 
         # Normal L2 loss, take mean over actual data
-        loss = 0.5 * (masked_td_error ** 2).sum() / mask.sum()
+        if self.args.mixer == "dmaq_qatten":
+            loss = (masked_td_error ** 2).sum() / mask.sum() + q_attend_regs
+        else:
+            loss = (masked_td_error ** 2).sum() / mask.sum()
 
         masked_hit_prob = th.mean(is_max_action, dim=2) * mask
         hit_prob = masked_hit_prob.sum() / mask.sum()

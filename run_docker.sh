@@ -9,12 +9,13 @@ echo "Launching container named '${name}' on GPU '${GPU}'"
 # Launches a docker container using our image, and runs the provided command
 
 if hash nvidia-docker 2>/dev/null; then
-  cmd=nvidia-docker
+#  cmd=nvidia-docker
+  cmd=docker
 else
   cmd=docker
 fi
 
-NV_GPU="$GPU" ${cmd} run \
+${cmd} run --gpus device=$GPU \
     -e WANDB_API_KEY=$WANDB_API_KEY \
     --name $name \
     --user $(id -u) \

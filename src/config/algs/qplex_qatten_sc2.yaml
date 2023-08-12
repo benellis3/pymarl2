@@ -6,9 +6,12 @@ epsilon_start: 1.0
 epsilon_finish: 0.05
 epsilon_anneal_time: 50000
 
-runner: "episode"
-
+#runner: "episode"
+runner: "parallel"
+batch_size_run: 4 # batch_size_run=4, buffer_size = 2500, batch_size=64  for 3s5z_vs_3s6z
 buffer_size: 5000
+batch_size: 128
+optimizer: 'adam'
 
 # update the target network every {} episodes
 target_update_interval: 200
@@ -22,6 +25,7 @@ mixing_embed_dim: 32
 hypernet_embed: 64
 adv_hypernet_layers: 1
 adv_hypernet_embed: 64
+td_lambda: 0.8
 
 num_kernel: 4
 is_minus_one: True
