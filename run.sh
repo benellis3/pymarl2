@@ -13,10 +13,10 @@ function onCtrlC () {
 
 config=$1  # qmix
 tag=$2
-maps=${3:-sc2_gen_protoss,sc2_gen_terran,sc2_gen_zerg}   # MMM2 left out
-units=${8:-10}
+maps=${3:-sc2_gen_zerg}   # MMM2 left out
+units=${8:-20}
 offset=0
-threads=${4:-24} # 2
+threads=${4:-3} # 2
 td_lambdas=${9:-0.6}
 eps_anneals=${10:-100000}
 args=${5:-}    # ""
